@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div><a class="pure-button" href="{{back_link}}">&lt;&lt; Back</a></div>
+    <h2>{{title}}</h2>
+    <div class="pure-g">
+        {% for file in files %}
+            <div class="pure-u-1 pure-u-md-1-2">
+                {% if file.type == 'swf' %}
+                    <h4>Flash Banner</h4>
+                    <object data="{{file.path}}" type="application/x-shockwave-flash" width="{{file.width}}" height="{{file.height}}">
+                        <param name="movie" value="{{file.path}}" />
+                        <param name="menu" value="false" />
+                        <param name="wmode" value="opaque" />
+                    </object>
+                    <p><span class="property">Name:</span> {{file.name}}</p>
+                    <p class="{% if file.weight_valid %}success{% else %}error{% endif %}"><span class="property">Weight:</span> {{file.weight}} KB <span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
+                    <p class="{% if file.flashVersion_valid %}success{% else %}error{% endif %}"><span class="property">Flash Version:</span> {{file.flashVersion}} <span class="fa {% if file.flashVersion_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
+                    <p class="{% if file.width_valid %}success{% else %}error{% endif %}"><span class="property">Width:</span> {{file.width}} <span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
+                    <p class="{% if file.height_valid %}success{% else %}error{% endif %}"><span class="property">Height:</span> {{file.height}} <span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
+                    <!--<p><span class="property">Frames:</span> {{file.frames}}</p>-->
+                    <p class="{% if file.fps_valid %}success{% else %}error{% endif %}"><span class="property">FPS:</span> {{file.fps}} <span class="fa {% if file.fps_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
+                    <p><span class="property">Modified date:</span> {{file.modified}}</p>
+                {% elseif file.type == 'image' %}
+                    <h4>{{file.extension|capitalize}} Image</h4>
+                    <img src="{{file.path}}" alt="{{file.name}}" />
+                    <p><span class="property">Name:</span> {{file.name}}</p>
+                    <p class="{% if file.weight_valid %}success{% else %}error{% endif %}"><span class="property">Weight:</span> {{file.weight}} KB <span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
+                    <p class="{% if file.width_valid %}success{% else %}error{% endif %}"><span class="property">Width:</span> {{file.width}} <span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
+                    <p class="{% if file.height_valid %}success{% else %}error{% endif %}"><span class="property">Height:</span> {{file.height}} <span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
+                    <p><span class="property">Modified date:</span> {{file.modified}}</p>
+                {% else %}
+                    <h4>{{file.extension|capitalize}} File</h4>
+                    <a href="{{file.path}}" target="_blank">{{file.name}}</a>
+                    <p><span class="property">Name:</span> {{file.name}}</p>
+                    <p><span class="property">Weight:</span> {{file.weight}} KB</p>
+                    <p><span class="property">Modified date:</span> {{file.modified}}</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js"></script>-->
+    {{ parent() }}
+{% endblock %}

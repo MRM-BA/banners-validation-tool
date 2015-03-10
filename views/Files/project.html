@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>{{path}}</h2>
+    <ul>
+        {% for campaign in project %}
+            <li>
+                <h4>{{campaign.media}}</h4>
+                <ul>
+                    {% for piece in campaign.pieces %}
+                        <li>
+                            {% if piece.uploaded %}
+                                <a href="{{path}}/{{piece.link}}">{{piece.name}}</a> <span class="fa fa-check fa-lg success"></span>
+                            {% else %}
+                                {{piece.name}} <span class="fa fa-close fa-lg error"></span>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

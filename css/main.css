@@ -1,0 +1,27 @@
+body {
+  width: 100%;
+  height: 100%;
+  /*background: #ffffff url(../img/background.jpg) fixed center top;*/
+  background: #ffffff;
+}
+body {
+  font-family: 'Droid Sans', sans-serif;
+  font-weight: normal;
+  font-size: 1em;
+  color: #000000;
+}
+body #wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+p.error,span.error {
+  color: red;
+}
+p.success,span.success {
+  color: green;
+}
+span.property {
+  font-weight: bold;
+}

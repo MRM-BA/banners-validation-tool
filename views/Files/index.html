@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Projects availables</h1>
+    {% if projects|length > 0 %}
+        <ul>
+            {% for project in projects %}
+                <li><a href="{{project}}">{{project}}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}

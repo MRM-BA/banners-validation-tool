@@ -38,6 +38,50 @@
                 {% endif %}
             </div>
         {% endfor %}
+
+        
+        <p class="error"> Errors <span class="fa fa-close"></span>
+         
+        
+        {% for file in files %}
+            <div class="pure-u-1">
+                
+                {% if file.type == 'swf' %}
+                    
+                    {% if file.weight_valid == false %}
+                        <span class="property">The Weight of the swf is {{file.weight}} KB</span> and it has to be no greater than {{ pieceData.swfWeight }} KB. 
+                    {% endif %}
+                    {% if file.flashVersion_valid == false %}
+                        <span class="property">The Flash Version of the swf is {{file.flashVersion}}</span> and it has to be Version {{ pieceData.flashVersion }}.
+                    {% endif %}
+                    {% if file.width_valid == false %}
+                    <span class="property">the Width of the swf is {{file.width}}</span> and it has to be {{ pieceData.width }}.
+                    {% endif %}
+                    {% if file.height_valid == false %}
+                       <span class="property">The Height of the swf is {{file.height}}</span> and it has to be {{ pieceData.height }}.
+                    {% endif %}
+                    {% if file.fps_valid == false %}
+                        <span class="property">The FPS of the swf is {{file.fps}}</span> and it has to be {{pieceData.fps}}.
+                    {% endif %}
+                    
+                {% elseif file.type == 'image' %}
+                    
+                    {% if file.weight_valid == false %}
+                        <span class="property">The Weight of the Image is {{file.weight}} KB</span> and it has to be no greater than {{pieceData.imageWeight}}.
+                    {% endif %}
+                    {% if file.width_valid == false %}
+                        <span class="property">The Width of the Image is {{file.width}}</span> and it has to be {{ pieceData.width }}.
+                    {% endif %}
+                    {% if file.height_valid == false %} 
+                        <span class="property">The Height of the Image is {{file.height}}</span> and it has to be {{pieceData.height}}.
+                    {% endif %}
+                  
+                
+                {% endif %}
+            
+            </div>
+        {% endfor %}
+        </p>
     </div>
 {% endblock %}
 

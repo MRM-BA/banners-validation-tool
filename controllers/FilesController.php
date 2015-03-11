@@ -63,7 +63,8 @@ class FilesController {
                     array(
                         'back_link' => $back_link,
                         'title' => $pieceName,
-                        'files' => $filesValidated
+                        'files' => $filesValidated,
+                        'pieceData' => $pieceData
                     )
             );
         } else {

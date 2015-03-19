@@ -3,6 +3,11 @@
 {% block content %}
     <div><a class="pure-button" href="{{back_link}}">&lt;&lt; Back</a></div>
     <h2>{{title}}</h2>
+    <div>
+      {% if deliverables.total_missing > 0 %} {{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are {% else %} is {% endif %} missing.
+      {% else %} {{deliverables.required}} file{% if deliverables.total_required > 1 %}s are {% else %} is {% endif %}  present, check passed. 
+      {% endif %}
+    </div>
     <div class="pure-g">
         {% for file in files %}
             <div class="pure-u-1 pure-u-md-1-2">

@@ -184,8 +184,10 @@ class FilesManager {
 
     public function validatePiece($directory, $files, $pieceData) {
         $validated = array();
+       
         foreach ($files as $key => $value) {
             $extension = strtolower(substr($value, strrpos($value, '.')+1));
+            
             if ($extension == 'swf') {
                 $validated[] = $this->validateSwf($directory,$value,$pieceData);
             } else if (in_array($extension, array('jpg','jpeg','png','gif'))) {
@@ -193,11 +195,33 @@ class FilesManager {
             } else {
                 $validated[] = $this->validateFile($directory,$value,$pieceData);
             }
-        }
+        }        
+        
         return $validated;
     }
 
-
+    public function validateDeliverables($files, $pieceData){
+      $required = $pieceData['deliverables'];
+      $missedDeliverables = array_flip($required);
+    
+      foreach ($files as $key => $value) {
+            $extension = strtolower(substr($value, strrpos($value, '.')+1));
+            unset($missedDeliverables[strtoupper($extension)]);        
+      }
+      
+      if(count($missedDeliverables) > 0):
+        foreach($missedDeliverables as $i => $v):
+          $missing[] = $i;
+        endforeach;
+      endif;
+      
+      $results['required'] = implode(' and ',$required);
+      $results['missing'] = (isset($missing)) ? implode(' and ', $missing) : null;
+      $results['total_required'] = count($required);
+      $results['total_missing'] = (isset($missing)) ? count($missing) : 0;
+      return $results;      
+    }
+    
     private function validateSwf($directory, $file, $pieceData) {
         require_once(__DIR__.'/../vendor/swfheader/swfheader.class.php');
         $swfheader = new \swfheader();

@@ -1,19 +1,103 @@
-body {
-  width: 100%;
+body, html{
+  background: #f5f3f3;
   height: 100%;
   /*background: #ffffff url(../img/background.jpg) fixed center top;*/
-  background: #ffffff;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 body {
-  font-family: 'Droid Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-weight: normal;
   font-size: 1em;
   color: #000000;
 }
-body #wrapper {
+body .wrapper {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
+}
+
+/* Header */
+
+header #top{
+  background-color: #fff;
+  box-sizing: border-box;
+  height: 60px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+header #top .left{ float: left; }
+header #top .right{ float: right; }
+
+header #mainHeader{
+  background: url('../img/header.jpg') center top no-repeat;
+  box-sizing: border-box;
+  height: 237px;
+  padding-top: 50px;
+  width: 100%;
+}
+
+header #mainHeader .wrapper{
+  overflow: hidden;
+}
+
+header h1, header h2{
+  font-family: 'Ubuntu', sans-serif;
+}
+
+header h1{
+  color: #fffffe;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+header h2{
+  color: #e5c2f9;
+  font-size: 20px;
+  margin: 0;
+}
+
+/* Main */
+
+#main{
+  background-color: #f5f3f3; 
+}
+
+/* Index */
+
+ul{  
+  background-color: #fff;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-top: 30px;
+  padding: 0;
+}
+
+ul li{
+  border-bottom: 1px solid #dddddd;
+  height: 40px;
+  list-style: none;
+  padding-left: 20px;
+}
+
+ul li:last-child{
+  border-bottom: none;
+}
+
+ul li a{
+  color: #707070;
+  display: block;
+  font-size: 14px;
+  line-height: 36px;
+}
+
+ul li a:hover, ul li a:active, ul li a:focus{
+  color: #707070; 
+  text-decoration: none;
 }
 
 p.error,span.error {

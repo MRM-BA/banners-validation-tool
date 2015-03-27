@@ -3,10 +3,12 @@
 {% block content %}
     <h1>Projects availables</h1>
     {% if projects|length > 0 %}
-        <ul>
-            {% for project in projects %}
-                <li><a href="{{project}}">{{project}}</a></li>
-            {% endfor %}
-        </ul>
+    	<div class="col-xs-8 col-xs-push-2">
+	        <ul>
+	            {% for project in projects %}
+	                <li><a href="{{project}}">{{project}}</a></li>
+	            {% endfor %}
+	        </ul>
+	    </div>
     {% endif %}
 {% endblock %}

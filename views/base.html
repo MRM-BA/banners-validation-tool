@@ -13,15 +13,31 @@
                 <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.2/html5shiv.min.js"></script>
             <![endif]-->
             <link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
-            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-            <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/grids-responsive-min.css">
+            <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="css/main.css">
         {% endblock %}
     </head>
     <body>
         
-        <div id="wrapper">
+        <header>
+            <div id="top">
+                <div class="left">
+                    <img src="img/logo-mrm.jpg">
+                </div>
+                <div class="right">
+                </div>
+            </div>
+            <div id="mainHeader">
+                <div class="wrapper">
+                    <h1>Ola</h1>
+                    <h2>Validation tool</h2>
+                </div>
+            </div>
+        </header>
+
+        <div id="main" class="wrapper">
             {% block content %}
             {% endblock %}
         </div>

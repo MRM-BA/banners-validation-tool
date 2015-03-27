@@ -1,24 +1,68 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>{{path}}</h2>
-    <div> {{stats.fails}} Fails over {{stats.total}} items</div>
-    <ul>
+    
+    <div class="row">
+        <div class="col-xs-1">
+
+        <h4 id="proyecto">Proyecto</h4>
+        <h2 id="nombreProyecto">{{path}}</h2>
+        <!--<div> {{stats.fails}} Fails over {{stats.total}} items</div>-->
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-9">
+
         {% for campaign in project %}
-            <li>
-                <h4>{{campaign.media}}</h4>
-                <ul>
-                    {% for piece in campaign.pieces %}
-                        <li>
-                            {% if piece.uploaded %}
-                                <a href="{{path}}/{{piece.link}}">{{piece.name}}</a> <span class="fa fa-check fa-lg success"></span>
-                            {% else %}
-                                {{piece.name}} <span class="fa fa-close fa-lg error"></span>
-                            {% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>{{campaign.media}}</th>
+              <th>Size</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for piece in campaign.pieces %}
+            <tr class="active">
+              <th scope="row">{% if piece.uploaded %}
+                                    <a href="{{path}}/{{piece.link}}">{{piece.name}}</a> <span class="fa fa-check fa-lg success"></span>
+                                {% else %}
+                                    {{piece.name}} <span class="fa fa-close fa-lg error"></span>
+                                {% endif %}</th>
+              <td>160x600</td>
+              <td>Column content</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
         {% endfor %}
-    </ul>
+
+        </div>
+
+        <div class="col-xs-3">
+
+            <div id="statusProject">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <img src="img/sombras.png">
+                    </div>
+                    <div class="col-xs-8">
+                        <p class="porcentaje">100%</p>
+                        <p class="missingFiles">No missing files</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p class="status">All files are there</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
 {% endblock %}

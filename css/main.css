@@ -1,19 +1,248 @@
-body {
-  width: 100%;
+body, html{
+  background: #f5f3f3;
   height: 100%;
   /*background: #ffffff url(../img/background.jpg) fixed center top;*/
-  background: #ffffff;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 body {
-  font-family: 'Droid Sans', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   font-weight: normal;
   font-size: 1em;
   color: #000000;
 }
-body #wrapper {
+body .wrapper {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
+}
+
+/* Header */
+
+header #top{
+  background-color: #fff;
+  box-sizing: border-box;
+  height: 60px;
+  padding: 0 20px;
+  width: 100%;
+}
+
+header #top .left{ float: left; }
+header #top .right{ float: right; }
+
+header #mainHeader{
+  background: url('../img/header.jpg') center top no-repeat;
+  box-sizing: border-box;
+  height: 237px;
+  padding-top: 50px;
+  width: 100%;
+}
+
+header #mainHeader .wrapper{
+  overflow: hidden;
+}
+
+header h1, header h2{
+  font-family: 'Ubuntu', sans-serif;
+}
+
+header h1{
+  color: #fffffe;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+header h2{
+  color: #e5c2f9;
+  font-size: 20px;
+  margin: 0;
+}
+
+/* Main */
+
+#main{
+  background-color: #f5f3f3; 
+}
+
+/* Index */
+
+#projects ul{  
+  background-color: #fff;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  margin-top: 30px;
+  padding: 0;
+}
+
+#projects ul li{
+  border-bottom: 1px solid #dddddd;
+  height: 40px;
+  list-style: none;
+  padding-left: 20px;
+}
+
+#projects ul li:last-child{
+  border-bottom: none;
+}
+
+#projects ul li a{
+  color: #707070;
+  display: block;
+  font-size: 14px;
+  line-height: 36px;
+}
+
+#projects ul li a:hover, #projects ul li a:active, #projects ul li a:focus{
+  color: #707070; 
+  text-decoration: none;
+}
+
+/* Proyectos */
+
+h4#proyecto{
+  color: #6c577c;
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+h2#nombreProyecto{
+  color: #333333;
+  font-weight: bold;
+  margin: 10px 0 30px 0;
+}
+
+table.table a, table.table td, table.table th{
+  color: #747070;
+  font-size: 12px;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+table.table a{
+  display: block;
+}
+
+table.table td{
+  text-align: center;
+  vertical-align: middle;
+}
+
+table.table a:hover, table.table a:active, table.table a:focus{
+  color: #747070;
+  text-decoration: none;
+}
+
+table.table thead{
+  background-color: #fff;
+}
+
+table.table thead tr th{
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+table#projects thead tr th:first-child{
+  color: #444444;
+  font-size: 18px;
+  text-align: left;
+}
+
+table.table tbody{
+  margin-bottom: 20px;
+}
+
+#statusProject{
+  background-color: #6eeb2e;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+#statusProject.yellow{
+  background-color: #f8c100;
+}
+
+#statusProject.orange{
+  background-color: #ff671d;
+}
+
+#statusProject.red{
+  background-color: #fe251e;
+}
+
+#statusProject p{
+    text-shadow: #000000 0px 1px 4px;
+  zoom:1;
+  filter: progid:DXImageTransform.Microsoft.Glow(Color=#000000,Strength=1);
+  -ms-filter: "progid:DXImageTransform.Microsoft.dropshadow(OffX=-1, OffY=-1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=-1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=-1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=0, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=-1, OffY=1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=-1, OffY=0, Color=#000000)";
+}
+
+#statusProject p.porcentaje{
+  font-size: 24px;
+  margin-bottom: 0;
+  text-align: right;
+}
+
+#statusProject p.missingFiles{
+  font-size: 14px;
+  font-weight: normal;
+  text-align: right;
+}
+
+#statusProject p.status{
+  font-size: 30px;
+  text-align: center;
+}
+
+/* Banners */
+
+#nameBanner{
+  background: url('../img/icon-name-project.png') left top no-repeat;
+  color: #842292;
+  font-size: 18px;
+  font-weight: bold;
+  height: 27px; 
+  padding-left: 35px;
+}
+
+.block:first-child{
+  padding: 0 20px 0 10px;
+}
+
+.containBlock{
+  background-color: #fff;
+  border: 1px solid #dddddd;
+  padding: 20px;
+}
+
+.containBlock p{ font-size: 12px; }
+
+.objet{ margin: 0 auto; text-align: center; margin-bottom: 30px; }
+
+span.fa-check{ color: green; }
+span.fa-close{ color: red; }
+
+#errors{
+  padding: 0 10px;
+}
+
+#errors #copy{
+  background-color: #f2dede;
+  color: #333333;
+  font-size: 14px;
+  height: 100%;
+  outline: 1px solid rgb(245, 220, 220);
+  margin: 20px 0;
+  padding: 20px;
+  width: 100%;
 }
 
 p.error,span.error {
@@ -25,4 +254,24 @@ p.success,span.success {
 }
 span.property {
   font-weight: bold;
+}
+
+.goBack{
+  text-align: right;
+  margin-top: 55px;
+}
+
+
+
+
+
+/* ------------  MEDIA QUERIES  ------------- */
+
+@media (max-width: 768px) {
+
+  .goBack{
+    text-align: left;
+    margin-top: 20px;
+  }
+
 }

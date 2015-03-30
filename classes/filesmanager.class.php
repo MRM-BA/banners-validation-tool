@@ -177,9 +177,36 @@ class FilesManager {
                                                         'link' => $aux[strtolower($key)]['directory'][$uploaded]
                                                     );
             }
-            
         }
         return $project;
+    }
+
+
+    /*
+     * Checks how many fails has a project before rendering
+     * @param array $project Project result set
+     * @return array Returns fails and total items of the project
+     * @author sebastian.perez
+     */
+    public function statsProject($project){
+      $total = 0;
+      $fails = 0;
+      if(is_array($project)):
+       foreach($project as $item):
+            foreach($item as $p):
+              if(is_array($p)):
+                foreach($p as $v):
+                   $total++;
+                   if(empty($v['uploaded'])):
+                     $fails++;
+                   endif;
+                endforeach;
+               endif;
+            endforeach;
+         endforeach;
+      endif;
+      $results = array('total' => $total, 'fails' => $fails);
+      return $results;
     }
 
 
@@ -220,6 +247,26 @@ class FilesManager {
     }
 
 
+    public function validateDeliverables($files, $pieceData){
+      $required = $pieceData['deliverables'];
+      $missedDeliverables = array_flip($required);
+      foreach ($files as $key => $value) {
+            $extension = strtolower(substr($value, strrpos($value, '.')+1));
+            unset($missedDeliverables[strtoupper($extension)]);
+      }
+      if(count($missedDeliverables) > 0):
+        foreach($missedDeliverables as $i => $v):
+          $missing[] = $i;
+        endforeach;
+      endif;
+      $results['required'] = implode(' and ',$required);
+      $results['missing'] = (isset($missing)) ? implode(' and ', $missing) : null;
+      $results['total_required'] = count($required);
+      $results['total_missing'] = (isset($missing)) ? count($missing) : 0;
+      return $results;
+    }
+
+    
     private function validateSwf($directory, $file, $pieceData) {
         require_once(__DIR__.'/../vendor/swfheader/swfheader.class.php');
         $swfheader = new \swfheader();

@@ -40,11 +40,13 @@ class FilesController {
             $files = $this->filesmanager->getProjectFiles($this->currentDirectory);
             $campaigns = $this->excelmanager->getCampaigns();
             $project = $this->filesmanager->validatedProject($campaigns,$files);
+            $statsProject = $this->filesmanager->statsProject($project);
             $this->template->display(
-                'Files/project.html', 
+                'Files/project.html',
                 array(
                     'path' => $path,
-                    'project' => $project
+                    'project' => $project,
+                    'stats' => $statsProject
                 )
             );
         } else {
@@ -63,13 +65,15 @@ class FilesController {
             $this->excelmanager = new \classes\ExcelManager($excelFile);
             $pieceData = $this->excelmanager->getPieceData($pieceName);
             $filesValidated = $this->filesmanager->validatePiece($this->currentDirectory,$files,$pieceData);
+            $deliverablesValidated = $this->filesmanager->validateDeliverables($files,$pieceData);
             $this->template->display(
                     'Files/file.html',
                     array(
                         'back_link' => $back_link,
                         'title' => $pieceName,
                         'files' => $filesValidated,
-                        'pieceData' => $pieceData
+                        'pieceData' => $pieceData,
+                        'deliverables' => $deliverablesValidated
                     )
             );
         } else {

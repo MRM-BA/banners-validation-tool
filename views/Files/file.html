@@ -1,107 +1,220 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div><a class="pure-button" href="{{back_link}}">&lt;&lt; Back</a></div>
-    <h2>{{title}}</h2>
-    <div class="pure-g">
+    <div class="col-xs-12 col-sm-2 col-sm-push-10 goBack">
+        <a class="btn btn-warning" href="{{back_link}}">&lt;&lt; Back</a>
+    </div>
+
+    <div class="col-xs-12 col-sm-10 col-sm-pull-2">
+        <h4 id="proyecto">Proyecto</h4>
+        <h2 id="nombreProyecto">CMW2829_ch_tracker_enero</h2>
+    </div>
+
+    <div>
+      {% if deliverables.total_missing > 0 %} {{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are {% else %} is {% endif %} missing.
+      {% else %} {{deliverables.required}} file{% if deliverables.total_required > 1 %}s are {% else %} is {% endif %}  present, check passed. 
+      {% endif %}
+    </div>
+
+    <p id="nameBanner">{{title}}</p>
+    <div class="row">
         {% for file in files %}
-            <div class="pure-u-1 pure-u-md-1-2">
+            <div class="col-xs-12 col-sm-6 block">
+                <div class="containBlock">
                 {% if file.type == 'swf' %}
                     <h4>Flash Banner</h4>
-                    <object data="{{file.path}}" type="application/x-shockwave-flash" width="{{file.width}}" height="{{file.height}}">
-                        <param name="movie" value="{{file.path}}" />
-                        <param name="menu" value="false" />
-                        <param name="wmode" value="opaque" />
-                    </object>
+                    <div class="objet">
+                        <object data="{{file.path}}" type="application/x-shockwave-flash" width="{{file.width}}" height="{{file.height}}">
+                            <param name="movie" value="{{file.path}}" />
+                            <param name="menu" value="false" />
+                            <param name="wmode" value="opaque" />
+                        </object>
+                    </div>
+
                     <p><span class="property">Name:</span> {{file.name}}</p>
-                    <p class="{% if file.weight_valid %}success{% else %}error{% endif %}"><span class="property">Weight:</span> {{file.weight}} KB <span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
-                    <p class="{% if file.flashVersion_valid %}success{% else %}error{% endif %}"><span class="property">Flash Version:</span> {{file.flashVersion}} <span class="fa {% if file.flashVersion_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
-                    <p class="{% if file.width_valid %}success{% else %}error{% endif %}"><span class="property">Width:</span> {{file.width}} <span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
-                    <p class="{% if file.height_valid %}success{% else %}error{% endif %}"><span class="property">Height:</span> {{file.height}} <span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
-                    <!--<p><span class="property">Frames:</span> {{file.frames}}</p>-->
-                    <p class="{% if file.fps_valid %}success{% else %}error{% endif %}"><span class="property">FPS:</span> {{file.fps}} <span class="fa {% if file.fps_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
                     <p><span class="property">Modified date:</span> {{file.modified}}</p>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th>Properties</th>
+                              <th>Value</th>
+                              <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Weight</th>
+                                <td>{{file.weight}} KB</td>
+                                <td><span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Flash Version</th>
+                                <td>{{file.flashVersion}}</td>
+                                <td><span class="fa {% if file.flashVersion_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Width</th>
+                                <td>{{file.width}}</td>
+                                <td><span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Height</th>
+                                <td>{{file.height}}</td>
+                                <td><span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>FPS</th>
+                                <td>{{file.fps}}</td>
+                                <td><span class="fa {% if file.fps_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 {% elseif file.type == 'image' %}
                     <h4>{{file.extension|capitalize}} Image</h4>
-                    <img src="{{file.path}}" alt="{{file.name}}" />
+
+                    <div class="objet">
+                        <img src="{{file.path}}" alt="{{file.name}}" />
+                    </div>
+
                     <p><span class="property">Name:</span> {{file.name}}</p>
-                    <p class="{% if file.weight_valid %}success{% else %}error{% endif %}"><span class="property">Weight:</span> {{file.weight}} KB <span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
-                    <p class="{% if file.width_valid %}success{% else %}error{% endif %}"><span class="property">Width:</span> {{file.width}} <span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
-                    <p class="{% if file.height_valid %}success{% else %}error{% endif %}"><span class="property">Height:</span> {{file.height}} <span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></p>
                     <p><span class="property">Modified date:</span> {{file.modified}}</p>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th>Properties</th>
+                              <th>Value</th>
+                              <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Weight</th>
+                                <td>{{file.weight}} KB</td>
+                                <td><span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Width</th>
+                                <td>{{file.width}}</td>
+                                <td><span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Height</th>
+                                <td>{{file.height}}</td>
+                                <td><span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
                 {% else %}
                     <h4>{{file.extension|capitalize}} File</h4>
+
                     <a href="{{file.path}}" target="_blank">{{file.name}}</a>
-                    <p><span class="property">Name:</span> {{file.name}}</p>
-                    <p><span class="property">Weight:</span> {{file.weight}} KB</p>
-                    <p><span class="property">Modified date:</span> {{file.modified}}</p>
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th>Properties</th>
+                              <th>Value</th>
+                              <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Weight</th>
+                                <td>{{file.weight}} KB</td>
+                                <td><span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Width</th>
+                                <td>{{file.width}}</td>
+                                <td><span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                            <tr>
+                                <th>Height</th>
+                                <td>{{file.height}}</td>
+                                <td><span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 {% endif %}
+                </div>
             </div>
         {% endfor %}
 
         
-        <p class="error"> Errors <span class="fa fa-close"></span>
-         
-        
-        {% for file in files %}
-            <div class="pure-u-1">
-                <ul>
-                {% if file.type == 'swf' %}
-                    
-                    {% if file.weight_valid == false %}
-                        <li>
-                            <span class="property">The Weight of the swf is {{file.weight}} KB</span> and it has to be no greater than {{ pieceData.swfWeight }} KB
-                        </li> 
-                    {% endif %}
-                    {% if file.flashVersion_valid == false %}
-                        <li>
-                            <span class="property">The Flash Version of the swf is {{file.flashVersion}}</span> and it has to be Version {{ pieceData.flashVersion }}.
-                        </li>
-                    {% endif %}
-                    {% if file.width_valid == false %}
-                        <li>
-                            <span class="property">the Width of the swf is {{file.width}}</span> and it has to be {{ pieceData.width }}.
-                        </li>
-                    {% endif %}
-                    {% if file.height_valid == false %}
-                       <li>
-                            <span class="property">The Height of the swf is {{file.height}}</span> and it has to be {{ pieceData.height }}.
-                       </li>
-                    {% endif %}
-                    {% if file.fps_valid == false %}
-                        <li>
-                            <span class="property">The FPS of the swf is {{file.fps}}</span> and it has to be {{pieceData.fps}}.
-                        </li>
-                    {% endif %}
-                    
-                {% elseif file.type == 'image' %}
-                    
-                    {% if file.weight_valid == false %}
-                        <li>
-                            <span class="property">The Weight of the Image is {{file.weight}} KB</span> and it has to be no greater than {{pieceData.imageWeight}}
-                        </li>
-                    {% endif %}
-                    {% if file.width_valid == false %}
-                        <li>
-                            <span class="property">The Width of the Image is {{file.width}}</span> and it has to be {{ pieceData.width }}.
-                        </li>
-                    {% endif %}
-                    {% if file.height_valid == false %} 
-                        <li>
-                            <span class="property">The Height of the Image is {{file.height}}</span> and it has to be {{pieceData.height}}.
-                        </li>
-                    {% endif %}
-                  
-                
-                {% endif %}
+        <div id="errors" class="col-xs-12">
             
-            </div>
-        {% endfor %}
-        </ul>
-        </p>
-    </div>
-{% endblock %}
+            <div id="copy">
+                {% for file in files %}
+                    <div>
+                        <ul>
+                        {% if file.type == 'swf' %}
+                            
+                            {% if file.weight_valid == false %}
+                                <li>
+                                    The Weight of the swf is {{file.weight}} KB and it has to be no greater than {{ pieceData.swfWeight }} KB
+                                </li> 
+                            {% endif %}
+                            {% if file.flashVersion_valid == false %}
+                                <li>
+                                    The Flash Version of the swf is {{file.flashVersion}} and it has to be Version {{ pieceData.flashVersion }}.
+                                </li>
+                            {% endif %}
+                            {% if file.width_valid == false %}
+                                <li>
+                                    the Width of the swf is {{file.width}} and it has to be {{ pieceData.width }}.
+                                </li>
+                            {% endif %}
+                            {% if file.height_valid == false %}
+                               <li>
+                                    The Height of the swf is {{file.height}} and it has to be {{ pieceData.height }}.
+                               </li>
+                            {% endif %}
+                            {% if file.fps_valid == false %}
+                                <li>
+                                    The FPS of the swf is {{file.fps}} and it has to be {{pieceData.fps}}.
+                                </li>
+                            {% endif %}
+                            
+                        {% elseif file.type == 'image' %}
+                            
+                            {% if file.weight_valid == false %}
+                                <li>
+                                    The Weight of the Image is {{file.weight}} KB and it has to be no greater than {{pieceData.imageWeight}}
+                                </li>
+                            {% endif %}
+                            {% if file.width_valid == false %}
+                                <li>
+                                    The Width of the Image is {{file.width}} and it has to be {{ pieceData.width }}.
+                                </li>
+                            {% endif %}
+                            {% if file.height_valid == false %} 
+                                <li>
+                                    The Height of the Image is {{file.height}} and it has to be {{pieceData.height}}.
+                                </li>
+                            {% endif %}
+                          
+                        </ul>
+                        {% endif %}
+                  
+                    </div>
+                {% endfor %}
 
+                <div style="text-align:center;">
+                    <button href="javascript:void(0);" id="copy-button" class="btn btn-danger">Copy errors</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <p id="copied" style="display: none">Report successfully copied to clipboard</p>
+    
+    
+{% endblock %}
+    
 
 {% block scripts %}
     <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js"></script>-->

@@ -2,6 +2,13 @@
 namespace lib;
 
 class pathFunctions {
+    
+    static function getUploadsDirectory() {
+        //return 'C:\xampp\htdocs\banners-validation-tool\uploads\'';
+        return  realpath(__DIR__.'/../'.PROJECTS_FOLDER).DS;
+    }
+
+
     static function cleanPath($path) {
         if ($path != '') {
             if (substr($path,-1,1) == '/') {
@@ -9,6 +16,14 @@ class pathFunctions {
             }
         }
         return $path;
+    }
+
+
+    static function cleanDirectory($dir) {
+        if (substr($dir, -1) == DS) {
+            $dir = substr($dir,0,strrpos($dir, DS));
+        }
+        return $dir;
     }
 
 

@@ -4,12 +4,13 @@ require_once('lib/pathFunctions.php');
 require_once('controllers/FilesController.php');
 require_once('vendor/autoload.php');
 
-$root = __DIR__.DS.PROJECTS_FOLDER.DS;
+//$root = __DIR__.DS.PROJECTS_FOLDER.DS;
+$root = \lib\pathFunctions::getUploadsDirectory();
 $path = isset($_GET['path']) ? $_GET['path'] : '';
 $path = \lib\pathFunctions::cleanPath($path);
-$absPath = realpath($root.$path);
+$absPath = realpath($root.$path).DS;
 
-$router = new controllers\FilesController($root);
+$router = new \controllers\FilesController($root, $absPath);
 
 if ($path != '') {
     require_once('classes/filesmanager.class.php');

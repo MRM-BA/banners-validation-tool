@@ -69,6 +69,33 @@ class FilesManager {
     }
 
 
+    private function haveFileWithExtensions($path, $extensions = array()) {
+        $return = false;
+        $dir = new \DirectoryIterator($path);
+        foreach ($dir as $node) {
+            if (!$node->isDot() && $node->isFile()) {
+                $extension = pathinfo($node->getFilename(), PATHINFO_EXTENSION);
+                if (in_array(strtolower($extension), $extensions)) {
+                    $return = $path.DS.$node->getFilename();
+                }
+            }
+        }
+        return $return;
+    }
+
+
+    private function searchFileIntoCwdAndParentDirectories($currentPath, $rootPath, $extensions = array()) {
+        $return = false;
+        $currentPath = \lib\pathFunctions::cleanDirectory($currentPath);
+        $rootPath = \lib\pathFunctions::cleanDirectory($rootPath);
+        while (($currentPath != $rootPath) && !$return) {
+            $return = $this->haveFileWithExtensions($currentPath, array('json'));
+            $currentPath = dirname($currentPath);
+        }
+        return $return;
+    }
+
+
     public function haveFilesOnly($path) {
         $return = true;
         $dir = new \DirectoryIterator($path);
@@ -82,22 +109,17 @@ class FilesManager {
 
 
     public function haveExcelFile($path) {
-        $return = false;
-        $dir = new \DirectoryIterator($path);
-        foreach ($dir as $node) {
-            if (!$node->isDot() && $node->isFile()) {
-                /*
-                if (strtolower($node->getExtension()) == 'xls' || strtolower($node->getExtension()) == 'xlsx') {
-                    $return = $path.DS.$node->getFilename();
-                }
-                */
-                $extension = pathinfo($node->getFilename(), PATHINFO_EXTENSION);
-                if (strtolower($extension) == 'xls' || strtolower($extension) == 'xlsx') {
-                    $return = $path.DS.$node->getFilename();
-                }
-            }
-        }
-        return $return;
+        return $this->haveFileWithExtensions($path, array('xls','xlsx'));
+    }
+
+
+    public function haveJsonFile($path) {
+        return $this->haveFileWithExtensions($path, array('json'));
+    }
+
+
+    public function getJsonFile($currentPath, $rootPath) {
+        return $this->searchFileIntoCwdAndParentDirectories($currentPath, $rootPath, array('json'));
     }
 
 

@@ -4,14 +4,12 @@ namespace classes;
 class ConfigManager {
     private $client;
     private $brand;
-    private $clientDefault;
-    private $brandDefault;
+    private $clientDefault = 'mrm';
+    private $brandDefault = null;
     private $jsonFile;
 
 
     public function __construct($jsonFile = false) {
-        $this->clientDefault = 'mrm';
-        $this->brandDefault = null;
         $this->setClient(null);
         $this->setBrand(null);
         $this->jsonFile = $jsonFile;

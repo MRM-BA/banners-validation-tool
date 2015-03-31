@@ -174,7 +174,7 @@ class FilesManager {
                 $project[strtolower($key)]['pieces'][] = array(
                                                         'name' => $value2,
                                                         'uploaded' => ($uploaded !== false ? true : false),
-                                                        'link' => $aux[strtolower($key)]['directory'][$uploaded]
+                                                        'link' => isset($aux[strtolower($key)]['directory'][$uploaded]) ? $aux[strtolower($key)]['directory'][$uploaded] : ''
                                                     );
             }
         }
@@ -205,7 +205,7 @@ class FilesManager {
             endforeach;
          endforeach;
       endif;
-      $results = array('total' => $total, 'fails' => $fails);
+      $results = array('total' => $total, 'fails' => $fails, 'percentage' => round((($total-$fails)*100)/$total) );
       return $results;
     }
 

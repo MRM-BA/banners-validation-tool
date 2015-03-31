@@ -5,8 +5,8 @@
     <div class="row">
         <div class="col-xs-1">
 
-        <h4 id="proyecto">Proyecto</h4>
-        <h2 id="nombreProyecto">{{path}}</h2>
+        <h4 id="project">Project</h4>
+        <h2 id="projectName">{{path}}</h2>
         <!--<div> {{stats.fails}} Fails over {{stats.total}} items</div>-->
 
         </div>
@@ -28,12 +28,12 @@
             {% for piece in campaign.pieces %}
             <tr class="active">
               <th scope="row">{% if piece.uploaded %}
-                                    <a href="{{path}}/{{piece.link}}">{{piece.name}}</a> <span class="fa fa-check fa-lg success"></span>
+                                    <a href="{{path}}/{{piece.link}}">{{piece.name}}</a>
                                 {% else %}
-                                    {{piece.name}} <span class="fa fa-close fa-lg error"></span>
+                                    {{piece.name}}
                                 {% endif %}</th>
               <td>160x600</td>
-              <td>Column content</td>
+              <td>{% if piece.uploaded %}<span class="fa fa-check fa-lg success"></span>{% else %}<span class="fa fa-close fa-lg error"></span>{% endif %}</td>
             </tr>
             {% endfor %}
           </tbody>
@@ -44,74 +44,76 @@
 
         <div class="col-xs-3">
 
-            <div id="statusProject">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <img src="img/sombras.png">
+            {% if stats.percentage == 100 %}
+                <div id="statusProject">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <img src="img/shadows.png">
+                        </div>
+                        <div class="col-xs-8">
+                            <p class="percentage">100%</p>
+                            <p class="missingFiles">No missing files</p>
+                        </div>
                     </div>
-                    <div class="col-xs-8">
-                        <p class="porcentaje">100%</p>
-                        <p class="missingFiles">No missing files</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p class="status">All files are there</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="statusProject" class="yellow">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <img src="img/sombras.png">
-                    </div>
-                    <div class="col-xs-8">
-                        <p class="porcentaje">71%</p>
-                        <p class="missingFiles">4 missing files</p>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="status">All files are there</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p class="status">Almost there</p>
+            {% elseif stats.percentage == 0 %}
+                <div id="statusProject" class="red">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <img src="img/shadows.png">
+                        </div>
+                        <div class="col-xs-8">
+                            <p class="percentage">0%</p>
+                            <p class="missingFiles">{{ stats.fails }} missing files</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="status">There are no files</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div id="statusProject" class="orange">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <img src="img/sombras.png">
+            {% elseif stats.percentage > 50 %}
+                <div id="statusProject" class="yellow">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <img src="img/shadows.png">
+                        </div>
+                        <div class="col-xs-8">
+                            <p class="percentage">{{ stats.percentage }}%</p>
+                            <p class="missingFiles">{{ stats.fails }} missing files</p>
+                        </div>
                     </div>
-                    <div class="col-xs-8">
-                        <p class="porcentaje">35%</p>
-                        <p class="missingFiles">11 missing files</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p class="status">Keep going</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="statusProject" class="red">
-                <div class="row">
-                    <div class="col-xs-4">
-                        <img src="img/sombras.png">
-                    </div>
-                    <div class="col-xs-8">
-                        <p class="porcentaje">0%</p>
-                        <p class="missingFiles">14 missing files</p>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="status">Almost there</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-12">
-                        <p class="status">There are no files</p>
+            {% else %}
+                <div id="statusProject" class="orange">
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <img src="img/shadows.png">
+                        </div>
+                        <div class="col-xs-8">
+                            <p class="percentage">{{ stats.percentage }}%</p>
+                            <p class="missingFiles">{{ stats.fails }} missing files</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="status">Keep going</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
+            {% endif %}
+            
         </div>
     </div>
 

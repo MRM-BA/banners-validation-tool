@@ -1,7 +1,6 @@
 body, html{
   background: #f5f3f3;
   height: 100%;
-  /*background: #ffffff url(../img/background.jpg) fixed center top;*/
   margin: 0;
   padding: 0;
   width: 100%;
@@ -32,7 +31,7 @@ header #top .left{ float: left; }
 header #top .right{ float: right; }
 
 header #mainHeader{
-  background: url('../img/header.jpg') center top no-repeat;
+  background: #4e2e83 center top no-repeat;
   box-sizing: border-box;
   height: 237px;
   padding-top: 50px;
@@ -100,16 +99,16 @@ header h2{
   text-decoration: none;
 }
 
-/* Proyectos */
+/* Project */
 
-h4#proyecto{
+h4#project {
   color: #6c577c;
   font-size: 18px;
   font-weight: bold;
   margin-top: 30px;
 }
 
-h2#nombreProyecto{
+h2#projectName {
   color: #333333;
   font-weight: bold;
   margin: 10px 0 30px 0;
@@ -185,7 +184,7 @@ table.table tbody{
   -ms-filter: "progid:DXImageTransform.Microsoft.dropshadow(OffX=-1, OffY=-1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=-1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=-1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=0, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=1, OffY=1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=-1, OffY=1, Color=#000000)progid:DXImageTransform.Microsoft.dropshadow(OffX=-1, OffY=0, Color=#000000)";
 }
 
-#statusProject p.porcentaje{
+#statusProject p.percentage{
   font-size: 24px;
   margin-bottom: 0;
   text-align: right;

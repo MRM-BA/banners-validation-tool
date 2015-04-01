@@ -16,7 +16,7 @@
         <div class="col-xs-9">
 
         {% for campaign in project %}
-        <table id="projects" class="table table-bordered">
+        <table id="projects" class="table table-bordered table-striped">
           <thead>
             <tr>
               <th>{{campaign.media}}</th>
@@ -26,12 +26,12 @@
           </thead>
           <tbody>
             {% for piece in campaign.pieces %}
-            <tr class="active">
-              <th scope="row">{% if piece.uploaded %}
+            <tr {% if not piece.uploaded %}class="error"{% endif %}>
+              <td scope="row">{% if piece.uploaded %}
                                     <a href="{{path}}/{{piece.link}}">{{piece.name}}</a>
                                 {% else %}
                                     {{piece.name}}
-                                {% endif %}</th>
+                                {% endif %}</td>
               <td>{{ piece.size }}</td>
               <td>{% if piece.uploaded %}<span class="fa fa-check fa-lg success"></span>{% else %}<span class="fa fa-close fa-lg error"></span>{% endif %}</td>
             </tr>

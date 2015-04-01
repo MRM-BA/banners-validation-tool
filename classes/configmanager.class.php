@@ -2,16 +2,16 @@
 namespace classes;
 
 class ConfigManager {
+    private $partner;
     private $client;
-    private $brand;
-    private $clientDefault = 'mrm';
-    private $brandDefault = null;
+    private $partnerDefault = 'mrm';
+    private $clientDefault = null;
     private $jsonFile;
 
 
     public function __construct($jsonFile = false) {
+        $this->setPartner(null);
         $this->setClient(null);
-        $this->setBrand(null);
         $this->jsonFile = $jsonFile;
         $this->setConfiguration();
     }
@@ -23,15 +23,15 @@ class ConfigManager {
                 $jsonString = \file_get_contents($this->jsonFile);
                 if ($jsonString) {
                     $jsonData = \json_decode($jsonString);
+                    if(isset($jsonData->partner)) {
+                        $this->setPartner($jsonData->partner);
+                    } else {
+                        $this->setPartner($this->partnerDefault);
+                    }
                     if(isset($jsonData->client)) {
                         $this->setClient($jsonData->client);
                     } else {
                         $this->setClient($this->clientDefault);
-                    }
-                    if (isset($jsonData->brand)) {
-                        $this->setBrand($jsonData->brand);
-                    } else {
-                        $this->setBrand($this->brandDefault);
                     }
                 }
             } catch (\Exception $e) {
@@ -44,8 +44,13 @@ class ConfigManager {
 
 
     private function setDefaults() {
+        $this->setPartner($this->partnerDefault);
         $this->setClient($this->clientDefault);
-        $this->setBrand($this->brandDefault);
+    }
+
+
+    public function getPartner() {
+        return $this->partner;
     }
 
 
@@ -54,17 +59,12 @@ class ConfigManager {
     }
 
 
-    public function getBrand() {
-        return $this->brand;
+    public function setPartner($partner) {
+        $this->partner = $partner;
     }
 
 
     public function setClient($client) {
         $this->client = $client;
-    }
-
-
-    public function setBrand($brand) {
-        $this->brand = $brand;
     }
 }

@@ -170,9 +170,13 @@ class FilesManager {
         }
         foreach ($campaigns as $key => $value) {
             foreach ($value as $key2 => $value2) {
-                $uploaded = array_search($value2, $aux[strtolower($key)]['pieces']);
+                $jsonData = json_decode($value2);
+                $name = $jsonData && isset($jsonData->name) ? $jsonData->name : '';
+                $size = $jsonData && isset($jsonData->size) ? $jsonData->size : '';
+                $uploaded = array_search($name, $aux[strtolower($key)]['pieces']);
                 $project[strtolower($key)]['pieces'][] = array(
-                                                        'name' => $value2,
+                                                        'name' => $name,
+                                                        'size' => $size,
                                                         'uploaded' => ($uploaded !== false ? true : false),
                                                         'link' => isset($aux[strtolower($key)]['directory'][$uploaded]) ? $aux[strtolower($key)]['directory'][$uploaded] : ''
                                                     );
@@ -222,12 +226,21 @@ class FilesManager {
     }
 
 
+    public function getProjectName($excelPath) {
+        $segments = explode(DS, $excelPath);
+        return isset($segments[count($segments)-2]) ? $segments[count($segments)-2] : '';
+    }
+
+
     public function getPieceName($files) {
-        $name = '';
+        $names = array();
         foreach ($files as $file) {
             $name = substr($file,1,strrpos($file, '.')-1);
+            if (!in_array($name, $names)) {
+                $names[] = $name;
+            }
         }
-        return $name;
+        return $names;
     }
 
 

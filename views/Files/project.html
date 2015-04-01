@@ -32,7 +32,7 @@
                                 {% else %}
                                     {{piece.name}}
                                 {% endif %}</th>
-              <td>160x600</td>
+              <td>{{ piece.size }}</td>
               <td>{% if piece.uploaded %}<span class="fa fa-check fa-lg success"></span>{% else %}<span class="fa fa-close fa-lg error"></span>{% endif %}</td>
             </tr>
             {% endfor %}

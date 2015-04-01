@@ -61,16 +61,20 @@ class FilesController {
         if ($excelFile) {
             $files = $this->filesmanager->getPieceFiles($this->currentDirectory);
             rsort($files);
-            $pieceName = $this->filesmanager->getPieceName($files);
+            $projectName = $this->filesmanager->getProjectName($excelFile);
+            $pieceNames = $this->filesmanager->getPieceName($files);
             $this->excelmanager = new \classes\ExcelManager($excelFile);
-            $pieceData = $this->excelmanager->getPieceData($pieceName);
+            $pieceData = $this->excelmanager->getPieceData($pieceNames);
             $filesValidated = $this->filesmanager->validatePiece($this->currentDirectory,$files,$pieceData);
             $deliverablesValidated = $this->filesmanager->validateDeliverables($files,$pieceData);
+            //var_dump($pieceData);
+            //die();
             $this->template->display(
                     'Files/file.html',
                     array(
                         'back_link' => $back_link,
-                        'title' => $pieceName,
+                        'project_name' => $projectName,
+                        'title' => $pieceData['name'],
                         'files' => $filesValidated,
                         'pieceData' => $pieceData,
                         'deliverables' => $deliverablesValidated

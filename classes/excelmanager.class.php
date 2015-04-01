@@ -28,7 +28,7 @@ class ExcelManager {
                     if (!array_key_exists($media, $campaigns)) {
                         $campaigns[$media] = array();
                     }
-                    $campaigns[$media][] = trim($row['M']);
+                    $campaigns[$media][] = json_encode( array('name'=> trim($row['M']), 'size' => strtolower(trim($row['C']))) );
                 }
             }
         }
@@ -36,10 +36,10 @@ class ExcelManager {
     }
 
 
-    public function getPieceData($pieceName) {
+    public function getPieceData($pieceNames) {
         $return = false;
         foreach ($this->excelFile as $line => $row) {
-            if ($line > 1 && trim($row['M']) == $pieceName) {
+            if ($line > 1 && in_array(trim($row['M']), $pieceNames)) {
                 $format = isset($row['B']) ? trim($row['B']) : '';
                 $size = isset($row['C']) ? strtolower(trim($row['C'])) : '';
                 $deliverables = isset($row['D']) ? array_map('trim', explode(',', $row['D'])) : '';
@@ -51,6 +51,7 @@ class ExcelManager {
                 $asVersion = isset($row['J']) ? trim($row['J']) : '';
                 $loops = isset($row['K']) ? trim($row['K']) : '';
                 $clickTag = isset($row['L']) ? trim($row['L']) : '';
+                $name = isset($row['M']) ? trim($row['M']) : '';
                 $width = 0;
                 $height = 0;
                 // Validations
@@ -84,7 +85,8 @@ class ExcelManager {
                     'flashVersion' => $flashVersion,
                     'asVersion' => $asVersion,
                     'loops' => $loops,
-                    'clickTag' => $clickTag
+                    'clickTag' => $clickTag,
+                    'name' => $name
                 );
                 break;
             }

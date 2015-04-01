@@ -26,7 +26,7 @@
           </thead>
           <tbody>
             {% for piece in campaign.pieces %}
-            <tr {% if not piece.uploaded %}class="error"{% endif %}>
+            <tr {% if not piece.uploaded %}class="danger"{% endif %}>
               <td scope="row">{% if piece.uploaded %}
                                     <a href="{{path}}/{{piece.link}}">{{piece.name}}</a>
                                 {% else %}

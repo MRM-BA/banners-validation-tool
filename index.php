@@ -8,7 +8,13 @@ require_once('vendor/autoload.php');
 $root = \lib\pathFunctions::getUploadsDirectory();
 $path = isset($_GET['path']) ? $_GET['path'] : '';
 $path = \lib\pathFunctions::cleanPath($path);
-$absPath = realpath($root.$path).DS;
+if ($absPath = realpath($root.$path)) {
+    $absPath .= DS;
+} else {
+    header('Location: '.\lib\pathFunctions::getParentUri());
+    exit();
+}
+
 
 $router = new \controllers\FilesController($root, $absPath);
 

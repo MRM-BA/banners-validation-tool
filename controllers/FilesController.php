@@ -19,6 +19,7 @@ class FilesController {
         $this->currentDirectory = $currentDirectory;
         $loader = new \Twig_Loader_Filesystem('views');
         $this->template = new \Twig_Environment($loader);
+        $this->template->addExtension(new \plugins\slugify\SlugifyTwigExtension());
         $this->filesmanager = new \classes\FilesManager($this->root);
         $jsonFile = $this->filesmanager->getJsonFile($this->currentDirectory, $this->root);
         $this->configmanager = new \classes\ConfigManager($jsonFile);

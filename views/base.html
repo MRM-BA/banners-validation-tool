@@ -18,7 +18,7 @@
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="css/main.css">
-            <link rel="stylesheet" href="css/{{ configuration.partner | lower | replace({' ': '-'}) }}.css">
+            <link rel="stylesheet" href="css/{{ configuration.partner | slugify }}.css">
         {% endblock %}
     </head>
     <body>
@@ -26,11 +26,11 @@
         <header>
             <div id="top">
                 <div class="left">
-                    <img src="img/partners/{{ configuration.partner | lower | replace({' ': '-'}) }}/logo.jpg">
+                    <img src="img/partners/{{ configuration.partner | slugify }}/logo.jpg">
                 </div>
                 <div class="right">
                     {% if configuration.brand %}
-                        <img src="img/clients/{{ configuration.client | lower | replace({' ': '-'}) }}/logo.jpg">
+                        <img src="img/clients/{{ configuration.brand | slugify }}/logo.jpg">
                     {% endif %}
                 </div>
             </div>

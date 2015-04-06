@@ -3,6 +3,7 @@ require_once('config/config.php');
 require_once('lib/pathFunctions.php');
 require_once('controllers/FilesController.php');
 require_once('vendor/autoload.php');
+require_once('plugins/slugify/SlugifyTwigExtension.php');
 
 //$root = __DIR__.DS.PROJECTS_FOLDER.DS;
 $root = \lib\pathFunctions::getUploadsDirectory();

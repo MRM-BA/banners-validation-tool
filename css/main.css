@@ -209,11 +209,24 @@ table.table tbody{
 
 #nameBanner{
   background: url('../img/icon-name-project.png') left top no-repeat;
+  clear: both;
   color: #842292;
   font-size: 18px;
   font-weight: bold;
   height: 27px; 
   padding-left: 35px;
+}
+
+#errorsMissing, #copied{
+	color: rgb(218, 12, 12);
+	font-size: 14px;
+	margin-top: 20px;
+	padding: 20px;
+}
+
+#copied{
+	color: green;
+	padding: 20px;
 }
 
 .block:first-child{
@@ -234,7 +247,8 @@ span.fa-check{ color: green; }
 span.fa-close{ color: red; }
 
 #errors{
-  padding: 0 10px;
+  padding: 20px 10px;
+  margin: 20px 0;
 }
 
 #errors #copy{
@@ -243,7 +257,6 @@ span.fa-close{ color: red; }
   font-size: 14px;
   height: 100%;
   outline: 1px solid rgb(245, 220, 220);
-  margin: 20px 0;
   padding: 20px;
   width: 100%;
 }
@@ -262,6 +275,25 @@ span.property {
 .goBack{
   text-align: right;
   margin-top: 55px;
+}
+
+.horizontal{
+	margin-bottom: 30px;
+}
+
+.horizontal.block:first-child{
+	padding: 0 15px;
+}
+
+.horizontal table.table{
+	margin: 0 auto;
+	max-width: 50%;
+}
+
+#file{
+	display: block;
+	font-size: 14px;
+	margin: 20px 0;
 }
 
 

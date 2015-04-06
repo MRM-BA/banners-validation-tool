@@ -12,7 +12,7 @@
 
     <p id="nameBanner">{{title}}</p>
 
-    <div>
+    <div id="errorsMissing"class="alert alert-danger">
       {% if deliverables.total_missing > 0 %} {{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are {% else %} is {% endif %} missing.
       {% else %} {{deliverables.required}} file{% if deliverables.total_required > 1 %}s are {% else %} is {% endif %}  present, check passed. 
       {% endif %}
@@ -20,7 +20,7 @@
 
     <div class="row">
         {% for file in files %}
-            <div class="col-xs-12 col-sm-6 block">
+            <div class="col-xs-12 {% if file.width and file.width > 390 %}col-sm-12 horizontal{% else %}col-sm-6{% endif %} block">
                 <div class="containBlock">
                 {% if file.type == 'swf' %}
                     <h4>Flash Banner</h4>
@@ -72,7 +72,7 @@
                         </tbody>
                     </table>
 
-                {% elseif file.type == 'image' %}
+                {% elseif file.type == 'images' %}
                     <h4>{{file.extension|capitalize}} Image</h4>
 
                     <div class="objet">
@@ -112,7 +112,7 @@
                 {% else %}
                     <h4>{{file.extension|capitalize}} File</h4>
 
-                    <a href="{{ file.path | encodeurl }}" target="_blank">{{file.name}}</a>
+                    <a id="file" href="{{ file.path | encodeurl }}" target="_blank">{{file.name}}</a>
 
                     <table class="table table-bordered">
                         <thead>
@@ -146,7 +146,7 @@
         {% endfor %}
 
         
-        <div id="errors" class="col-xs-12">
+        <div id="errors" class="col-xs-12 alert alert-danger">
             
             <div id="copy">
                 {% for file in files %}

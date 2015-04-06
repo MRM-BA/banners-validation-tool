@@ -49,24 +49,10 @@
 
         {% block scripts %}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+			<script type="text/javascript" src="js/vendor/jquery/jquery.zclip.min.js"></script>
             <script src="js/main.js"></script>
-            
-            <script type="text/javascript" src="js/vendor/jquery/jquery.zclip.min.js"></script>
-            <script type="text/javascript">
-                //$(document).ready(function(){
-                    //$("#copy-button").click(function () {
-                
-
-                $("#copy-button").zclip({
-                    path:'js/vendor/jquery/ZeroClipboard.swf',
-                    copy: $("div#copy").text(),
-                    afterCopy: function copiado(){
-                                    $("p#copied").show("slow");
-                                }
-                }); 
-                    
-               // });
-            </script>
         {% endblock %}
     </body>
 </html>
+
+

@@ -6,7 +6,7 @@
     	<div id="projects" class="col-xs-8 col-xs-push-2">
 	        <ul>
 	            {% for project in projects %}
-	                <li><a href="{{project}}">{{project}}</a></li>
+	                <li><a href="{{ project | encodeurl }}">{{project}}</a></li>
 	            {% endfor %}
 	        </ul>
 	    </div>

@@ -38,6 +38,29 @@ class pathFunctions {
     }
 
 
+    static function getBaseUri() {
+        return ABS_ROOT;
+    }
+
+
+    static function getUriRelativeToBase($uri) {
+        return str_replace(self::getBaseUri(), '', $uri);
+    }
+
+
+    static function encodeUrl($uri) {
+        $segments = explode('/', $uri);
+        $segments = array_map('rawurlencode', $segments);
+        $uri = implode('/', $segments);
+        return $uri;
+    }
+
+
+    static function decodeUrl($uri) {
+        return rawurldecode($uri);
+    }
+
+
     static function slugify($text) {
         // replace non letter or digits by -
         $text = preg_replace('#[^\\pL\d]+#u', '-', $text);

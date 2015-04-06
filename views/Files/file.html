@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="col-xs-12 col-sm-2 col-sm-push-10 goBack">
-        <a class="btn btn-warning" href="{{back_link}}">&lt;&lt; Back</a>
+        <a class="btn btn-warning" href="{{ back_link | encodeurl }}">&lt;&lt; Back</a>
     </div>
 
     <div class="col-xs-12 col-sm-10 col-sm-pull-2">
@@ -111,7 +111,7 @@
                 {% else %}
                     <h4>{{file.extension|capitalize}} File</h4>
 
-                    <a href="{{file.path}}" target="_blank">{{file.name}}</a>
+                    <a href="{{ file.path | encodeurl }}" target="_blank">{{file.name}}</a>
 
                     <table class="table table-bordered">
                         <thead>

@@ -28,7 +28,7 @@
             {% for piece in campaign.pieces %}
             <tr {% if not piece.uploaded %}class="danger"{% endif %}>
               <td scope="row">{% if piece.uploaded %}
-                                    <a href="{{path}}/{{piece.link}}">{{piece.name}}</a>
+                                    <a href="{{ (path~'/'~piece.link) | encodeurl }}">{{piece.name}}</a>
                                 {% else %}
                                     {{piece.name}}
                                 {% endif %}</td>

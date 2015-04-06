@@ -19,11 +19,12 @@ class FilesController {
         $this->currentDirectory = $currentDirectory;
         $loader = new \Twig_Loader_Filesystem('views');
         $this->template = new \Twig_Environment($loader);
+        $this->template->addExtension(new \plugins\encodeurl\EncodeUrlTwigExtension());
         $this->template->addExtension(new \plugins\slugify\SlugifyTwigExtension());
         $this->filesmanager = new \classes\FilesManager($this->root);
         $jsonFile = $this->filesmanager->getJsonFile($this->currentDirectory, $this->root);
         $this->configmanager = new \classes\ConfigManager($jsonFile);
-        $this->template->addGlobal('base', ABS_ROOT);
+        $this->template->addGlobal('base', \lib\pathFunctions::getBaseUri());
         $this->template->addGlobal('configuration', $this->configmanager);
     }
 
@@ -57,7 +58,7 @@ class FilesController {
 
 
     public function file($path) {
-        $back_link = \lib\pathFunctions::getParentUri();
+        $back_link = \lib\pathFunctions::getUriRelativeToBase(\lib\pathFunctions::getParentUri());
         $excelFile = $this->filesmanager->getExcelForPiece($this->currentDirectory);
         if ($excelFile) {
             $files = $this->filesmanager->getPieceFiles($this->currentDirectory);

@@ -10,13 +10,14 @@
         <h2 id="projectName">{{ project_name }}</h2>
     </div>
 
+    <p id="nameBanner">{{title}}</p>
+
     <div>
       {% if deliverables.total_missing > 0 %} {{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are {% else %} is {% endif %} missing.
       {% else %} {{deliverables.required}} file{% if deliverables.total_required > 1 %}s are {% else %} is {% endif %}  present, check passed. 
       {% endif %}
     </div>
 
-    <p id="nameBanner">{{title}}</p>
     <div class="row">
         {% for file in files %}
             <div class="col-xs-12 col-sm-6 block">

@@ -152,6 +152,10 @@ table#projects thead tr th:first-child{
   text-align: left;
 }
 
+table#projects tbody tr td:first-child{
+	text-align: left;
+}
+
 table.table tbody{
   margin-bottom: 20px;
 }

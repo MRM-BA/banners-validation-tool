@@ -225,7 +225,7 @@ class FilesManager {
 
     public function getExcelForPiece($path) {
         $excelFile = false;
-        while (!$excelFile && $path != $this->root) {
+        while (!$excelFile && $path != \lib\pathFunctions::cleanDirectory($this->root)) {
             $excelFile = $this->haveExcelFile($path);
             if (!$excelFile) {
                 $path = substr($path, 0, strrpos($path, DS));

@@ -66,7 +66,7 @@ class FilesController {
 
     public function file($path) {
         $back_link = \lib\pathFunctions::getUriRelativeToBase(\lib\pathFunctions::getParentUri());
-        $excelFile = $this->filesmanager->getExcelForPiece($this->currentDirectory);
+        $excelFile = $this->filesmanager->getExcelForPiece(\lib\pathFunctions::cleanDirectory($this->currentDirectory));
         if ($excelFile) {
             $back_link = \lib\pathFunctions::getFileBackUri($excelFile);
             $files = $this->filesmanager->getPieceFiles($this->currentDirectory);

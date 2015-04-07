@@ -274,7 +274,9 @@ class FilesManager {
       $missedDeliverables = array_flip($required);
       foreach ($files as $key => $value) {
             $extension = strtolower(substr($value, strrpos($value, '.')+1));
-            unset($missedDeliverables[strtoupper($extension)]);
+            if (isset($missedDeliverables[strtoupper($extension)])) {
+                unset($missedDeliverables[strtoupper($extension)]);
+            }
       }
       if(count($missedDeliverables) > 0):
         foreach($missedDeliverables as $i => $v):

@@ -42,7 +42,7 @@ class ExcelManager {
             if ($line > 1 && in_array(trim($row['M']), $pieceNames)) {
                 $format = isset($row['B']) ? trim($row['B']) : '';
                 $size = isset($row['C']) ? strtolower(trim($row['C'])) : '';
-                $deliverables = isset($row['D']) ? array_map('trim', explode(',', $row['D'])) : '';
+                $deliverables = isset($row['D']) ? array_map('strtoupper',array_map('trim', explode(',', $row['D']))) : '';
                 $imageWeight = isset($row['E']) ? trim($row['E']) : null;
                 $swfWeight = isset($row['F']) ? trim($row['F']) : null;
                 $maxDuration = isset($row['G']) ? trim($row['G']) : null;
@@ -60,6 +60,9 @@ class ExcelManager {
                     $width = isset($size[0]) && is_numeric($size[0]) ? $size[0] : $width;
                     $height = isset($size[1]) && is_numeric($size[1]) ? $size[1] : $height;
                 }
+                if(($key = array_search('FLA', $deliverables)) !== false) {
+                    unset($deliverables[$key]);
+                }
                 if (!is_numeric($imageWeight)) {
                     $imageWeight = null;
                 }
@@ -72,6 +75,7 @@ class ExcelManager {
                 if (!is_numeric($fps)) {
                     $fps = null;
                 }
+                
 
                 $return = array(
                     'format' => $format,

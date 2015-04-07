@@ -217,11 +217,18 @@ table.table tbody{
   padding-left: 35px;
 }
 
-#errorsMissing, #copied{
-	color: rgb(218, 12, 12);
+#deliverablesLabel, #copied{
 	font-size: 14px;
 	margin-top: 20px;
 	padding: 20px;
+}
+
+#deliverablesLabel .alert-error {
+    color: rgb(218, 12, 12);
+}
+
+#deliverablesLabel .alert-success {
+    color: rgb(12, 12, 12);
 }
 
 #copied{

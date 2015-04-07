@@ -118,6 +118,10 @@ class FilesManager {
     }
 
 
+    public function getExcelFileInParentDirectories($currentPath, $rootPath) {
+        return $this->searchFileIntoCwdAndParentDirectories($currentPath, $rootPath, array('xls','xlsx'));
+    }
+
     public function getJsonFile($currentPath, $rootPath) {
         return $this->searchFileIntoCwdAndParentDirectories($currentPath, $rootPath, array('json'));
     }
@@ -126,6 +130,11 @@ class FilesManager {
     public function getAllProjects() {
         $return = $this->exploreDirectory($this->root, false);
         return $return;
+    }
+
+
+    public function getCurrentFolderDirectories($path) {
+        return $this->exploreDirectory($path, false);
     }
 
 

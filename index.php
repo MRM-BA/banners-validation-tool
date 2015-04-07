@@ -5,8 +5,8 @@ require_once('controllers/FilesController.php');
 require_once('vendor/autoload.php');
 require_once('plugins/encodeurl/EncodeUrlTwigExtension.php');
 require_once('plugins/slugify/SlugifyTwigExtension.php');
+require_once('classes/filesmanager.class.php');
 
-//$root = __DIR__.DS.PROJECTS_FOLDER.DS;
 $root = \lib\pathFunctions::getUploadsDirectory();
 $path = isset($_GET['path']) ? \lib\pathFunctions::decodeUrl($_GET['path']) : '';
 $path = \lib\pathFunctions::cleanPath($path);
@@ -19,20 +19,14 @@ if ($absPath = realpath($root.$path)) {
 
 
 $router = new \controllers\FilesController($root, $absPath);
+$filesmanager = new \classes\FilesManager($root);
 
-if ($path != '') {
-    require_once('classes/filesmanager.class.php');
-    $filesmanager = new \classes\FilesManager($root);
-    if ($filesmanager->haveFilesOnly($absPath)) {
-        $router->file($path);
-    } else {
-        $router->project($path);
-    }
+if ($filesmanager->haveFilesOnly($absPath)) {
+    $router->file($path);
 } else {
-    $router->index();
+    if ($filesmanager->getExcelFileInParentDirectories($absPath, $root)) {
+        $router->project($path);
+    } else {
+        $router->index($path);
+    }
 }
-
-
-
-
-

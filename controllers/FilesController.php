@@ -29,9 +29,16 @@ class FilesController {
     }
 
 
-    public function index() {
-        $projects = $this->filesmanager->getAllProjects();
-        $this->template->display('Files/index.html', array('projects' => $projects));
+    public function index($path) {
+        $path = $path ? $path.'/' : '';
+        $projects = $this->filesmanager->getCurrentFolderDirectories($this->currentDirectory);
+        $this->template->display(
+            'Files/index.html',
+            array(
+                'path' => $path,
+                'projects' => $projects
+            )
+        );
     }
 
 
@@ -61,6 +68,7 @@ class FilesController {
         $back_link = \lib\pathFunctions::getUriRelativeToBase(\lib\pathFunctions::getParentUri());
         $excelFile = $this->filesmanager->getExcelForPiece($this->currentDirectory);
         if ($excelFile) {
+            $back_link = \lib\pathFunctions::getFileBackUri($excelFile);
             $files = $this->filesmanager->getPieceFiles($this->currentDirectory);
             rsort($files);
             $projectName = $this->filesmanager->getProjectName($excelFile);
@@ -69,8 +77,6 @@ class FilesController {
             $pieceData = $this->excelmanager->getPieceData($pieceNames);
             $filesValidated = $this->filesmanager->validatePiece($this->currentDirectory,$files,$pieceData);
             $deliverablesValidated = $this->filesmanager->validateDeliverables($files,$pieceData);
-            //var_dump($pieceData);
-            //die();
             $this->template->display(
                     'Files/file.html',
                     array(

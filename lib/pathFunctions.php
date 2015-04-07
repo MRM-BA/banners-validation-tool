@@ -4,7 +4,6 @@ namespace lib;
 class pathFunctions {
     
     static function getUploadsDirectory() {
-        //return 'C:\xampp\htdocs\banners-validation-tool\uploads\'';
         return  realpath(__DIR__.'/../'.PROJECTS_FOLDER).DS;
     }
 
@@ -27,6 +26,11 @@ class pathFunctions {
     }
 
 
+    static function convertDirectoryToPath($dir) {
+        return str_replace(DS, '/', $dir);
+    }
+
+
     static function getRequestUri() {
         return 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     }
@@ -35,6 +39,13 @@ class pathFunctions {
     static function getParentUri() {
         $uri = self::getRequestUri();
         return substr($uri, 0, strrpos($uri, '/'));
+    }
+
+
+    static function getFileBackUri($excelPath) {
+        $uri = str_replace(self::getUploadsDirectory(), '', dirname($excelPath));
+        $uri = self::convertDirectoryToPath($uri);
+        return $uri;
     }
 
 

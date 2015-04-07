@@ -149,49 +149,48 @@
         <div id="errors" class="col-xs-12 alert alert-danger">
             
             <div id="copy">
-                {% for file in files %}
-                    <div>
-                        <ul>
-                        {% if file.type == 'swf' %}
-                            
-                            {% if file.weight_valid == false %}
-                                <li>The Weight of the swf is {{file.weight}} KB and it has to be no greater than {{ pieceData.swfWeight }} KB.</li> 
-                            {% endif %}
-                            {% if file.flashVersion_valid == false %}
-                                <li>The Flash Version of the swf is {{file.flashVersion}} and it has to be Version {{ pieceData.flashVersion }}.</li>
-                            {% endif %}
-                            {% if file.width_valid == false %}
-                                <li>The Width of the swf is {{file.width}} and it has to be {{ pieceData.width }}.</li>
-                            {% endif %}
-                            {% if file.height_valid == false %}
-                               <li>The Height of the swf is {{file.height}} and it has to be {{ pieceData.height }}.</li>
-                            {% endif %}
-                            {% if file.fps_valid == false %}
-                                <li>The FPS of the swf is {{file.fps}} and it has to be {{pieceData.fps}}.</li>
-                            {% endif %}
-                        {% elseif file.type == 'image' %}
-                            {% if file.weight_valid == false %}
-                                <li>The Weight of the Image is {{file.weight}} KB and it has to be no greater than {{pieceData.imageWeight}}.</li>
-                            {% endif %}
-                            {% if file.width_valid == false %}
-                                <li>The Width of the Image is {{file.width}} and it has to be {{ pieceData.width }}.</li>
-                            {% endif %}
-                            {% if file.height_valid == false %} 
-                                <li>The Height of the Image is {{file.height}} and it has to be {{pieceData.height}}.</li>
-                            {% endif %}
-
-                        </ul>
+                <div>
+                    <ul>
+                        {% if deliverables.total_missing > 0 %}
+                            <li>{{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are{% else %} is{% endif %} missing.</li>
                         {% endif %}
-                  
-                    </div>
-                {% endfor %}
-
                 
-
-            </div>
-			<div style="text-align:center;">
-                    <button href="javascript:void(0);" id="copy-button" class="btn btn-danger">Copy errors</button>
+                        {% for file in files %}
+                            {% if file.type == 'swf' %}
+                                {% if file.weight_valid == false %}
+                                    <li>The Weight of the swf is {{file.weight}} KB and it has to be no greater than {{ pieceData.swfWeight }} KB.</li> 
+                                {% endif %}
+                                {% if file.flashVersion_valid == false %}
+                                    <li>The Flash Version of the swf is {{file.flashVersion}} and it has to be Version {{ pieceData.flashVersion }}.</li>
+                                {% endif %}
+                                {% if file.width_valid == false %}
+                                    <li>The Width of the swf is {{file.width}} and it has to be {{ pieceData.width }}.</li>
+                                {% endif %}
+                                {% if file.height_valid == false %}
+                                   <li>The Height of the swf is {{file.height}} and it has to be {{ pieceData.height }}.</li>
+                                {% endif %}
+                                {% if file.fps_valid == false %}
+                                    <li>The FPS of the swf is {{file.fps}} and it has to be {{pieceData.fps}}.</li>
+                                {% endif %}
+                            {% elseif file.type == 'image' %}
+                                {% if file.weight_valid == false %}
+                                    <li>The Weight of the Image is {{file.weight}} KB and it has to be no greater than {{pieceData.imageWeight}}.</li>
+                                {% endif %}
+                                {% if file.width_valid == false %}
+                                    <li>The Width of the Image is {{file.width}} and it has to be {{ pieceData.width }}.</li>
+                                {% endif %}
+                                {% if file.height_valid == false %} 
+                                    <li>The Height of the Image is {{file.height}} and it has to be {{pieceData.height}}.</li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
                 </div>
+            </div>
+
+			<div style="text-align:center;">
+                <button href="javascript:void(0);" id="copy-button" class="btn btn-danger">Copy errors</button>
+            </div>
         </div>
     </div>
     <p id="copied" style="display: none">Report successfully copied to clipboard</p>

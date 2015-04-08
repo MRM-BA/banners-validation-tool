@@ -21,7 +21,9 @@ if ($absPath = realpath($root.$path)) {
 $router = new \controllers\FilesController($root, $absPath);
 $filesmanager = new \classes\FilesManager($root);
 
-if ($filesmanager->haveFilesOnly($absPath)) {
+if ($path == '') {
+    $router->index($path);
+} else if ($filesmanager->haveFilesOnly($absPath)) {
     $router->file($path);
 } else {
     if ($filesmanager->getExcelFileInParentDirectories($absPath, $root)) {

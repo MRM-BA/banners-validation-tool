@@ -112,31 +112,21 @@
                 {% else %}
                     <h4>{{file.extension|capitalize}} File</h4>
 
-                    <a id="file" href="{{ file.path | encodeurl }}" target="_blank">{{file.name}}</a>
+                    <p><span class="property">Name:</span> {{file.name}}</p>
+                    <p><span class="property">View/Download:</span> <a class="file-link" href="{{ file.path | encodeurl }}" target="_blank">click here</a></p>
+                    <p><span class="property">Modified date:</span> {{file.modified}}</p>
 
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                               <th>Properties</th>
                               <th>Value</th>
-                              <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th>Weight</th>
                                 <td>{{file.weight}} KB</td>
-                                <td><span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Width</th>
-                                <td>{{file.width}}</td>
-                                <td><span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                            </tr>
-                            <tr>
-                                <th>Height</th>
-                                <td>{{file.height}}</td>
-                                <td><span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
                             </tr>
                         </tbody>
                     </table>

@@ -297,8 +297,7 @@ span.property {
 	max-width: 50%;
 }
 
-#file{
-	display: block;
+.file-link {
 	font-size: 14px;
 	margin: 20px 0;
 }

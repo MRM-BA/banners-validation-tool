@@ -305,7 +305,7 @@ class FilesManager {
         $return['weight'] = round(@filesize($filePath)/1024, 2);
         $return['weight_valid'] = ($return['weight'] > $pieceData['swfWeight'] ? false : true);
         $return['flashVersion'] = $swfheader->version;
-        $return['flashVersion_valid'] = ($return['flashVersion'] == $pieceData['flashVersion'] ? true : false);
+        $return['flashVersion_valid'] = (!$pieceData['flashVersion'] || $return['flashVersion'] == $pieceData['flashVersion'] ? true : false);
         $return['width'] = $swfheader->width;
         $return['width_valid'] = ($return['width'] == $pieceData['width'] ? true : false);
         $return['height'] = $swfheader->height;

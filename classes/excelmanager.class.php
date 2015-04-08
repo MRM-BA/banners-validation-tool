@@ -47,7 +47,7 @@ class ExcelManager {
                 $swfWeight = isset($row['F']) ? trim($row['F']) : null;
                 $maxDuration = isset($row['G']) ? trim($row['G']) : null;
                 $fps = isset($row['H']) ? trim($row['H']) : null;
-                $flashVersion = isset($row['I']) ? trim($row['I']) : '';
+                $flashVersion = isset($row['I']) ? trim(str_replace(',', '.', $row['I'])) : '';
                 $asVersion = isset($row['J']) ? trim($row['J']) : '';
                 $loops = isset($row['K']) ? trim($row['K']) : '';
                 $clickTag = isset($row['L']) ? trim($row['L']) : '';
@@ -74,6 +74,11 @@ class ExcelManager {
                 }
                 if (!is_numeric($fps)) {
                     $fps = null;
+                }
+                if (!is_numeric($flashVersion)) {
+                    $flashVersion = null;
+                } else {
+                    $flashVersion = (float)$flashVersion;
                 }
                 
 

@@ -70,7 +70,7 @@ class swfheader {
             if (substr($this->magic,0,1)=="C") $this->compressed = true ;
                else $this->compressed = false ;
             // version
-            $this->version = ord(fread($fp,1)) ;
+            $this->version = $this->getVersion(ord(fread($fp,1)));
             // Size
             $lg = 0 ;
             // 4 LSB-MSB
@@ -172,6 +172,24 @@ class swfheader {
          $swf_dimensions=$this->width."|".$this->height;
          return $swf_dimensions;
          }
-       }   
    }
-?>
+
+
+   public function getVersion($number) {
+      $number = (int)$number;
+      if ($number > 9) {
+         if ($number < 13) {
+            $number = '10.'.($number-9);
+         } else if ($number < 23) {
+            $number = '11.'.($number-13);
+         } else if ($number < 28) {
+            $number = $number - 11;
+         } else {
+            $number = 17;
+         }
+      }
+      $number = (float)$number;
+      return $number;
+   }
+
+}

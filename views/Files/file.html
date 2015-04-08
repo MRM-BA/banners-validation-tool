@@ -14,7 +14,7 @@
 
     <div id="deliverablesLabel"class="alert {% if deliverables.total_missing > 0 %}alert-danger{% else %}alert-success{% endif %}">
       {% if deliverables.total_missing > 0 %} {{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are {% else %} is {% endif %} missing.
-      {% else %} {{deliverables.required}} file{% if deliverables.total_required > 1 %}s are {% else %} is {% endif %}  present, check passed. 
+      {% else %} {{deliverables.required}} file{% if deliverables.total_required > 1 %}s are {% else %} is {% endif %}  present, deliverables check passed. 
       {% endif %}
     </div>
 

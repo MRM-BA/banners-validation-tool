@@ -114,6 +114,10 @@ h2#projectName {
   margin: 10px 0 30px 0;
 }
 
+table.table {
+  background: #fff;
+}
+
 table.table a, table.table td, table.table th{
   color: #747070;
   font-size: 12px;
@@ -136,7 +140,7 @@ table.table a:hover, table.table a:active, table.table a:focus{
 }
 
 table.table thead{
-  background-color: #fff;
+  background-color: #ededed;
 }
 
 table.table thead tr th{
@@ -241,7 +245,7 @@ table.table tbody{
 }
 
 .containBlock{
-  background-color: #fff;
+  background-color: #cbcbcb;
   border: 1px solid #dddddd;
   padding: 20px;
 }

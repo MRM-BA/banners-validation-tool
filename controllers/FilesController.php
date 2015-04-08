@@ -77,6 +77,7 @@ class FilesController {
             $pieceData = $this->excelmanager->getPieceData($pieceNames);
             $filesValidated = $this->filesmanager->validatePiece($this->currentDirectory,$files,$pieceData);
             $deliverablesValidated = $this->filesmanager->validateDeliverables($files,$pieceData);
+            $hasErrors = $this->filesmanager->hasErrors($filesValidated,$deliverablesValidated);
             $this->template->display(
                     'Files/file.html',
                     array(
@@ -85,7 +86,8 @@ class FilesController {
                         'title' => $pieceData['name'],
                         'files' => $filesValidated,
                         'pieceData' => $pieceData,
-                        'deliverables' => $deliverablesValidated
+                        'deliverables' => $deliverablesValidated,
+                        'hasErrors' => $hasErrors
                     )
             );
         } else {

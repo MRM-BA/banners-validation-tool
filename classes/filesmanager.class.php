@@ -354,4 +354,26 @@ class FilesManager {
         return $return;
     }
 
+
+    public function hasErrors($files,$deliverables) {
+        $return = false;
+        foreach ($files as $key => $file) {
+            if ($file['type'] == 'swf') {
+                if (!($file['weight_valid'] && $file['flashVersion_valid'] && $file['width_valid'] && $file['height_valid'] && $file['fps_valid'])) {
+                    $return = true;
+                    break;
+                }
+            } else if ($file['type'] == 'image') {
+                if (!($file['weight_valid'] && $file['width_valid'] && $file['height_valid'])) {
+                    $return = true;
+                    break;
+                }
+            }
+        }
+        if ($deliverables['total_missing']) {
+            $return = true;
+        }
+        return $return;
+    }
+
 }

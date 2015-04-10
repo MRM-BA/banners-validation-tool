@@ -8,15 +8,17 @@ require_once(__DIR__.'/../classes/excelmanager.class.php');
 class FilesController {
     private $root;
     private $currentDirectory;
+    private $isClientReview;
     private $template;
     private $filesmanager;
     private $configmanager;
     private $excelmanager;
 
 
-    public function __construct($root, $currentDirectory) {
+    public function __construct($root, $currentDirectory, $isClientReview) {
         $this->root = $root;
         $this->currentDirectory = $currentDirectory;
+        $this->isClientReview = $isClientReview;
         $loader = new \Twig_Loader_Filesystem('views');
         $this->template = new \Twig_Environment($loader);
         $this->template->addExtension(new \plugins\encodeurl\EncodeUrlTwigExtension());
@@ -26,6 +28,8 @@ class FilesController {
         $this->configmanager = new \classes\ConfigManager($jsonFile);
         $this->template->addGlobal('base', \lib\pathFunctions::getBaseUri());
         $this->template->addGlobal('configuration', $this->configmanager);
+        $this->template->addGlobal('isCR', $this->isClientReview);
+        $this->template->addGlobal('CRUriSegment', ($this->isClientReview ? CLIENT_REVIEW_URI_SEGMENT.'/' : ''));
     }
 
 

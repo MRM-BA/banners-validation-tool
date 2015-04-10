@@ -42,6 +42,16 @@ class pathFunctions {
     }
 
 
+    static function isClientReview(&$path) {
+        $cr = false;
+        if (substr($path, 0, strlen(CLIENT_REVIEW_URI_SEGMENT)) == CLIENT_REVIEW_URI_SEGMENT) {
+            $cr = true;
+            $path = substr($path, strlen(CLIENT_REVIEW_URI_SEGMENT)+1);
+        }
+        return $cr;
+    }
+
+
     static function getFileBackUri($excelPath) {
         $uri = str_replace(self::getUploadsDirectory(), '', dirname($excelPath));
         $uri = self::convertDirectoryToPath($uri);

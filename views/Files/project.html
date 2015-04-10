@@ -13,27 +13,31 @@
     </div>
 
     <div class="row">
-        <div class="col-xs-9">
+        <div class="{% if isCR %}col-xs-12{% else %}col-xs-9{% endif %}">
 
         {% for campaign in project %}
         <table id="projects" class="table table-bordered table-striped">
           <thead>
             <tr>
-              <th>{{campaign.media}}</th>
-              <th>Size</th>
-              <th>Status</th>
+            <th>{{campaign.media}}</th>
+            <th>Size</th>
+            {% if not isCR %}
+                <th>Status</th>
+            {% endif %}
             </tr>
           </thead>
           <tbody>
             {% for piece in campaign.pieces %}
             <tr {% if not piece.uploaded %}class="danger"{% endif %}>
               <td scope="row">{% if piece.uploaded %}
-                                    <a href="{{ (path~'/'~piece.link) | encodeurl }}">{{piece.name}}</a>
+                                    <a href="{{ CRUriSegment }}{{ (path~'/'~piece.link) | encodeurl }}">{{piece.name}}</a>
                                 {% else %}
                                     {{piece.name}}
                                 {% endif %}</td>
               <td>{{ piece.size }}</td>
-              <td>{% if piece.uploaded %}<span class="fa fa-check fa-lg success"></span>{% else %}<span class="fa fa-close fa-lg error"></span>{% endif %}</td>
+              {% if not isCR %}
+                <td>{% if piece.uploaded %}<span class="fa fa-check fa-lg success"></span>{% else %}<span class="fa fa-close fa-lg error"></span>{% endif %}</td>
+              {% endif %}
             </tr>
             {% endfor %}
           </tbody>
@@ -42,79 +46,82 @@
 
         </div>
 
-        <div class="col-xs-3">
+        
+        {% if not isCR %}
+            <div class="col-xs-3">
 
-            {% if stats.percentage == 100 %}
-                <div id="statusProject">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <img src="img/shadows.png">
+                {% if stats.percentage == 100 %}
+                    <div id="statusProject">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img src="img/shadows.png">
+                            </div>
+                            <div class="col-xs-8">
+                                <p class="percentage">100%</p>
+                                <p class="missingFiles">No missing files</p>
+                            </div>
                         </div>
-                        <div class="col-xs-8">
-                            <p class="percentage">100%</p>
-                            <p class="missingFiles">No missing files</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <p class="status">All files are there</p>
-                        </div>
-                    </div>
-                </div>
-            {% elseif stats.percentage == 0 %}
-                <div id="statusProject" class="red">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <img src="img/shadows.png">
-                        </div>
-                        <div class="col-xs-8">
-                            <p class="percentage">0%</p>
-                            <p class="missingFiles">{{ stats.fails }} missing files</p>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="status">All files are there</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <p class="status">There are no files</p>
+                {% elseif stats.percentage == 0 %}
+                    <div id="statusProject" class="red">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img src="img/shadows.png">
+                            </div>
+                            <div class="col-xs-8">
+                                <p class="percentage">0%</p>
+                                <p class="missingFiles">{{ stats.fails }} missing files</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="status">There are no files</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% elseif stats.percentage > 50 %}
-                <div id="statusProject" class="yellow">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <img src="img/shadows.png">
+                {% elseif stats.percentage > 50 %}
+                    <div id="statusProject" class="yellow">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img src="img/shadows.png">
+                            </div>
+                            <div class="col-xs-8">
+                                <p class="percentage">{{ stats.percentage }}%</p>
+                                <p class="missingFiles">{{ stats.fails }} missing files</p>
+                            </div>
                         </div>
-                        <div class="col-xs-8">
-                            <p class="percentage">{{ stats.percentage }}%</p>
-                            <p class="missingFiles">{{ stats.fails }} missing files</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <p class="status">Almost there</p>
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <div id="statusProject" class="orange">
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <img src="img/shadows.png">
-                        </div>
-                        <div class="col-xs-8">
-                            <p class="percentage">{{ stats.percentage }}%</p>
-                            <p class="missingFiles">{{ stats.fails }} missing files</p>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="status">Almost there</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <p class="status">Keep going</p>
+                {% else %}
+                    <div id="statusProject" class="orange">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img src="img/shadows.png">
+                            </div>
+                            <div class="col-xs-8">
+                                <p class="percentage">{{ stats.percentage }}%</p>
+                                <p class="missingFiles">{{ stats.fails }} missing files</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p class="status">Keep going</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {% endif %}
-            
-        </div>
+                {% endif %}
+
+            </div>
+        {% endif %}
     </div>
 
 

@@ -10,6 +10,7 @@ require_once('classes/filesmanager.class.php');
 $root = \lib\pathFunctions::getUploadsDirectory();
 $path = isset($_GET['path']) ? \lib\pathFunctions::decodeUrl($_GET['path']) : '';
 $path = \lib\pathFunctions::cleanPath($path);
+$isClientReview = \lib\pathFunctions::isClientReview($path);
 if ($absPath = realpath($root.$path)) {
     $absPath .= DS;
 } else {
@@ -18,7 +19,7 @@ if ($absPath = realpath($root.$path)) {
 }
 
 
-$router = new \controllers\FilesController($root, $absPath);
+$router = new \controllers\FilesController($root, $absPath, $isClientReview);
 $filesmanager = new \classes\FilesManager($root);
 
 if ($path == '') {

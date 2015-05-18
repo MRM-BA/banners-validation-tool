@@ -1,220 +1,227 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="col-xs-12 col-sm-2 col-sm-push-10 goBack">
-        <a class="btn btn-warning" href="{{ CRUriSegment }}{{ back_link | encodeurl }}">&lt;&lt; Back</a>
+<div class="col-xs-12 col-sm-2 col-sm-push-10 goBack">
+  <a class="btn btn-warning" href="{{ CRUriSegment }}{{ back_link | encodeurl }}">&lt;&lt; Back</a>
+</div>
+
+<div class="col-xs-12 col-sm-10 col-sm-pull-2">
+  <h4 id="project">Project</h4>
+  <h2 id="projectName">{{ project_name }}</h2>
+</div>
+
+<p id="nameBanner">{{title}}</p>
+
+{% if not isCR %}
+<div id="deliverablesLabel"class="alert {% if deliverables.total_missing > 0 %}alert-danger{% elseif deliverables.misplaced > 0 %}alert-warning {% else %}alert-success{% endif %}">
+  {% if deliverables.total_missing > 0 %} {{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are {% else %} is {% endif %} missing.
+  {% elseif deliverables.misplaced > 0 %}  
+  This files should not be there:
+  <ul>
+    {% for file in deliverables.misplaced %}
+    <li> {{file}} </li>
+    {% endfor %}
+  </ul>
+  {% else %} {{deliverables.required}} file{% if deliverables.total_required > 1 %}s are {% else %} is {% endif %}  present, deliverables check passed. 
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="row">
+  {% for file in files %}
+  <div class="col-xs-12 {% if file.width and file.width > 390 %}col-sm-12 horizontal{% else %}col-sm-6{% endif %} block">
+    <div class="containBlock">
+      {% if file.type == 'swf' %}
+      <h4>Flash Banner</h4>
+      <div class="objet">
+        <object data="{{file.path}}" type="application/x-shockwave-flash" width="{{file.width}}" height="{{file.height}}">
+          <param name="movie" value="{{file.path}}" />
+          <param name="menu" value="false" />
+          <param name="wmode" value="opaque" />
+        </object>
+      </div>
+
+      <p><span class="property">Name:</span> {{file.name}}</p>
+      <p><span class="property">Modified date:</span> {{file.modified}}</p>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Properties</th>
+            <th>Value</th>
+            {% if not isCR %}
+            <th>Status</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Weight</th>
+            <td>{{file.weight}} KB</td>
+            {% if not isCR %}
+            <td><span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th>Flash Version</th>
+            <td>{{file.flashVersion}}</td>
+            {% if not isCR %}
+            <td><span class="fa {% if file.flashVersion_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th>Width</th>
+            <td>{{file.width}}</td>
+            {% if not isCR %}
+            <td><span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th>Height</th>
+            <td>{{file.height}}</td>
+            {% if not isCR %}
+            <td><span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th>FPS</th>
+            <td>{{file.fps}}</td>
+            {% if not isCR %}
+            <td><span class="fa {% if file.fps_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+
+      {% elseif file.type == 'image' %}
+      <h4>{{file.extension|capitalize}} Image</h4>
+
+      <div class="objet">
+        <img src="{{file.path}}" alt="{{file.name}}" />
+      </div>
+
+      <p><span class="property">Name:</span> {{file.name}}</p>
+      <p><span class="property">Modified date:</span> {{file.modified}}</p>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Properties</th>
+            <th>Value</th>
+            {% if not isCR %}
+            <th>Status</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Weight</th>
+            <td>{{file.weight}} KB</td>
+            {% if not isCR %}
+            <td><span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th>Width</th>
+            <td>{{file.width}}</td>
+            {% if not isCR %}
+            <td><span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+            {% endif %}
+          </tr>
+          <tr>
+            <th>Height</th>
+            <td>{{file.height}}</td>
+            {% if not isCR %}
+            <td><span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+
+      {% else %}
+      <h4>{{file.extension|capitalize}} File</h4>
+
+      <p><span class="property">Name:</span> {{file.name}}</p>
+      <p><span class="property">View/Download:</span> <a class="file-link" href="{{ file.path | encodeurl }}" target="_blank">click here</a></p>
+      <p><span class="property">Modified date:</span> {{file.modified}}</p>
+
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Properties</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>Weight</th>
+            <td>{{file.weight}} KB</td>
+          </tr>
+        </tbody>
+      </table>
+      {% endif %}
     </div>
+  </div>
+  {% endfor %}
 
-    <div class="col-xs-12 col-sm-10 col-sm-pull-2">
-        <h4 id="project">Project</h4>
-        <h2 id="projectName">{{ project_name }}</h2>
-    </div>
 
-    <p id="nameBanner">{{title}}</p>
+  {% if not isCR and hasErrors %}
+  <div id="errors" class="col-xs-12 alert alert-danger">
 
-    {% if not isCR %}
-        <div id="deliverablesLabel"class="alert {% if deliverables.total_missing > 0 %}alert-danger{% else %}alert-success{% endif %}">
-          {% if deliverables.total_missing > 0 %} {{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are {% else %} is {% endif %} missing.
-          {% else %} {{deliverables.required}} file{% if deliverables.total_required > 1 %}s are {% else %} is {% endif %}  present, deliverables check passed. 
+    <div id="copy">
+      <div>
+        <ul>
+          {% if deliverables.total_missing > 0 %}
+          <li>{{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are{% else %} is{% endif %} missing.</li>
           {% endif %}
-        </div>
-    {% endif %}
 
-    <div class="row">
-        {% for file in files %}
-            <div class="col-xs-12 {% if file.width and file.width > 390 %}col-sm-12 horizontal{% else %}col-sm-6{% endif %} block">
-                <div class="containBlock">
-                {% if file.type == 'swf' %}
-                    <h4>Flash Banner</h4>
-                    <div class="objet">
-                        <object data="{{file.path}}" type="application/x-shockwave-flash" width="{{file.width}}" height="{{file.height}}">
-                            <param name="movie" value="{{file.path}}" />
-                            <param name="menu" value="false" />
-                            <param name="wmode" value="opaque" />
-                        </object>
-                    </div>
-
-                    <p><span class="property">Name:</span> {{file.name}}</p>
-                    <p><span class="property">Modified date:</span> {{file.modified}}</p>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Properties</th>
-                                <th>Value</th>
-                                {% if not isCR %}
-                                    <th>Status</th>
-                                {% endif %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Weight</th>
-                                <td>{{file.weight}} KB</td>
-                                {% if not isCR %}
-                                    <td><span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <th>Flash Version</th>
-                                <td>{{file.flashVersion}}</td>
-                                {% if not isCR %}
-                                    <td><span class="fa {% if file.flashVersion_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <th>Width</th>
-                                <td>{{file.width}}</td>
-                                {% if not isCR %}
-                                    <td><span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <th>Height</th>
-                                <td>{{file.height}}</td>
-                                {% if not isCR %}
-                                    <td><span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <th>FPS</th>
-                                <td>{{file.fps}}</td>
-                                {% if not isCR %}
-                                    <td><span class="fa {% if file.fps_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                                {% endif %}
-                            </tr>
-                        </tbody>
-                    </table>
-
-                {% elseif file.type == 'image' %}
-                    <h4>{{file.extension|capitalize}} Image</h4>
-
-                    <div class="objet">
-                        <img src="{{file.path}}" alt="{{file.name}}" />
-                    </div>
-
-                    <p><span class="property">Name:</span> {{file.name}}</p>
-                    <p><span class="property">Modified date:</span> {{file.modified}}</p>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Properties</th>
-                                <th>Value</th>
-                                {% if not isCR %}
-                                    <th>Status</th>
-                                {% endif %}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Weight</th>
-                                <td>{{file.weight}} KB</td>
-                                {% if not isCR %}
-                                    <td><span class="fa {% if file.weight_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <th>Width</th>
-                                <td>{{file.width}}</td>
-                                {% if not isCR %}
-                                    <td><span class="fa {% if file.width_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                                {% endif %}
-                            </tr>
-                            <tr>
-                                <th>Height</th>
-                                <td>{{file.height}}</td>
-                                {% if not isCR %}
-                                    <td><span class="fa {% if file.height_valid %}fa-check{% else %}fa-close{% endif %}"></span></td>
-                                {% endif %}
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                {% else %}
-                    <h4>{{file.extension|capitalize}} File</h4>
-
-                    <p><span class="property">Name:</span> {{file.name}}</p>
-                    <p><span class="property">View/Download:</span> <a class="file-link" href="{{ file.path | encodeurl }}" target="_blank">click here</a></p>
-                    <p><span class="property">Modified date:</span> {{file.modified}}</p>
-
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                              <th>Properties</th>
-                              <th>Value</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Weight</th>
-                                <td>{{file.weight}} KB</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                {% endif %}
-                </div>
-            </div>
-        {% endfor %}
-
-        
-        {% if not isCR and hasErrors %}
-            <div id="errors" class="col-xs-12 alert alert-danger">
-                
-                <div id="copy">
-                    <div>
-                        <ul>
-                            {% if deliverables.total_missing > 0 %}
-                                <li>{{ deliverables.missing }} deliverable{% if deliverables.total_missing > 1 %}s are{% else %} is{% endif %} missing.</li>
-                            {% endif %}
-                    
-                            {% for file in files %}
-                                {% if file.type == 'swf' %}
-                                    {% if file.weight_valid == false %}
-                                        <li>The Weight of the swf is {{file.weight}} KB and it has to be no greater than {{ pieceData.swfWeight }} KB.</li> 
-                                    {% endif %}
-                                    {% if file.flashVersion_valid == false %}
-                                        <li>The Flash Version of the swf is {{file.flashVersion}} and it has to be Version {{ pieceData.flashVersion }}.</li>
-                                    {% endif %}
-                                    {% if file.width_valid == false %}
-                                        <li>The Width of the swf is {{file.width}} and it has to be {{ pieceData.width }}.</li>
-                                    {% endif %}
-                                    {% if file.height_valid == false %}
-                                       <li>The Height of the swf is {{file.height}} and it has to be {{ pieceData.height }}.</li>
-                                    {% endif %}
-                                    {% if file.fps_valid == false %}
-                                        <li>The FPS of the swf is {{file.fps}} and it has to be {{pieceData.fps}}.</li>
-                                    {% endif %}
-                                {% elseif file.type == 'image' %}
-                                    {% if file.weight_valid == false %}
-                                        <li>The Weight of the Image is {{file.weight}} KB and it has to be no greater than {{pieceData.imageWeight}}.</li>
-                                    {% endif %}
-                                    {% if file.width_valid == false %}
-                                        <li>The Width of the Image is {{file.width}} and it has to be {{ pieceData.width }}.</li>
-                                    {% endif %}
-                                    {% if file.height_valid == false %} 
-                                        <li>The Height of the Image is {{file.height}} and it has to be {{pieceData.height}}.</li>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-
-    			<div style="text-align:center;">
-                    <button href="javascript:void(0);" id="copy-button" class="btn btn-danger">Copy errors</button>
-                </div>
-            </div>
-        {% endif %}
-
+          {% for file in files %}
+          {% if file.type == 'swf' %}
+          {% if file.weight_valid == false %}
+          <li>The Weight of the swf is {{file.weight}} KB and it has to be no greater than {{ pieceData.swfWeight }} KB.</li> 
+          {% endif %}
+          {% if file.flashVersion_valid == false %}
+          <li>The Flash Version of the swf is {{file.flashVersion}} and it has to be Version {{ pieceData.flashVersion }}.</li>
+          {% endif %}
+          {% if file.width_valid == false %}
+          <li>The Width of the swf is {{file.width}} and it has to be {{ pieceData.width }}.</li>
+          {% endif %}
+          {% if file.height_valid == false %}
+          <li>The Height of the swf is {{file.height}} and it has to be {{ pieceData.height }}.</li>
+          {% endif %}
+          {% if file.fps_valid == false %}
+          <li>The FPS of the swf is {{file.fps}} and it has to be {{pieceData.fps}}.</li>
+          {% endif %}
+          {% elseif file.type == 'image' %}
+          {% if file.weight_valid == false %}
+          <li>The Weight of the Image is {{file.weight}} KB and it has to be no greater than {{pieceData.imageWeight}}.</li>
+          {% endif %}
+          {% if file.width_valid == false %}
+          <li>The Width of the Image is {{file.width}} and it has to be {{ pieceData.width }}.</li>
+          {% endif %}
+          {% if file.height_valid == false %} 
+          <li>The Height of the Image is {{file.height}} and it has to be {{pieceData.height}}.</li>
+          {% endif %}
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </div>
     </div>
-    <p id="copied" style="display: none">Report successfully copied to clipboard</p>
-    
-    
+
+    <div style="text-align:center;">
+      <button href="javascript:void(0);" id="copy-button" class="btn btn-danger">Copy errors</button>
+    </div>
+  </div>
+  {% endif %}
+
+</div>
+<p id="copied" style="display: none">Report successfully copied to clipboard</p>
+
+
 {% endblock %}
-    
+
 
 {% block scripts %}
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js"></script>-->
-    {{ parent() }}
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.min.js"></script>-->
+{{ parent() }}
 {% endblock %}

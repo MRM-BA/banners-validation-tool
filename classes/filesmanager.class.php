@@ -271,19 +271,32 @@ class FilesManager {
 
     public function validateDeliverables($files, $pieceData){
       $required = $pieceData['deliverables'];
+       
       $missedDeliverables = array_flip($required);
+      $misplaced = null;
+      
       foreach ($files as $key => $value) {
             $extension = strtolower(substr($value, strrpos($value, '.')+1));
-            if (isset($missedDeliverables[strtoupper($extension)])) {
+            
+            if (isset($missedDeliverables[strtoupper($extension)])):
                 unset($missedDeliverables[strtoupper($extension)]);
-            }
+            endif;
+            
+            if(!in_array(strtoupper($extension), $required)):
+             $misplaced[] = str_replace('/','',$value);
+            endif;
+            
       }
+      
       if(count($missedDeliverables) > 0):
         foreach($missedDeliverables as $i => $v):
           $missing[] = $i;
         endforeach;
       endif;
+        
+      
       $results['required'] = implode(' and ',$required);
+      $results['misplaced'] = $misplaced;
       $results['missing'] = (isset($missing)) ? implode(' and ', $missing) : null;
       $results['total_required'] = count($required);
       $results['total_missing'] = (isset($missing)) ? count($missing) : 0;

@@ -75,6 +75,7 @@ class FilesController {
             $back_link = \lib\pathFunctions::getFileBackUri($excelFile);
             $files = $this->filesmanager->getPieceFiles($this->currentDirectory);
             rsort($files);
+             
             $projectName = $this->filesmanager->getProjectName($excelFile);
             $pieceNames = $this->filesmanager->getPieceName($files);
             $this->excelmanager = new \classes\ExcelManager($excelFile);
@@ -90,7 +91,7 @@ class FilesController {
                         'title' => $pieceData['name'],
                         'files' => $filesValidated,
                         'pieceData' => $pieceData,
-                        'deliverables' => $deliverablesValidated,
+                        'deliverables' => $deliverablesValidated, 
                         'hasErrors' => $hasErrors
                     )
             );

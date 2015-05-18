@@ -42,7 +42,7 @@
       </div>
 
       <p><span class="property">Name:</span> {{file.name}}</p>
-      <p><span class="property">Modified date:</span> {{file.modified}}</p>
+      <p><span class="property">Modified date:</span> {{file.modified}}</p> 
 
       <table class="table table-bordered">
         <thead>
@@ -101,8 +101,8 @@
       </div>
 
       <p><span class="property">Name:</span> {{file.name}}</p>
-      <p><span class="property">Modified date:</span> {{file.modified}}</p>
-
+      <p><span class="property">Modified date:</span> {{file.modified}}</p> 
+      
       <table class="table table-bordered">
         <thead>
           <tr>
@@ -177,31 +177,31 @@
 
           {% for file in files %}
           {% if file.type == 'swf' %}
-          {% if file.weight_valid == false %}
-          <li>The Weight of the swf is {{file.weight}} KB and it has to be no greater than {{ pieceData.swfWeight }} KB.</li> 
-          {% endif %}
-          {% if file.flashVersion_valid == false %}
-          <li>The Flash Version of the swf is {{file.flashVersion}} and it has to be Version {{ pieceData.flashVersion }}.</li>
-          {% endif %}
-          {% if file.width_valid == false %}
-          <li>The Width of the swf is {{file.width}} and it has to be {{ pieceData.width }}.</li>
-          {% endif %}
-          {% if file.height_valid == false %}
-          <li>The Height of the swf is {{file.height}} and it has to be {{ pieceData.height }}.</li>
-          {% endif %}
-          {% if file.fps_valid == false %}
-          <li>The FPS of the swf is {{file.fps}} and it has to be {{pieceData.fps}}.</li>
-          {% endif %}
-          {% elseif file.type == 'image' %}
-          {% if file.weight_valid == false %}
-          <li>The Weight of the Image is {{file.weight}} KB and it has to be no greater than {{pieceData.imageWeight}}.</li>
-          {% endif %}
-          {% if file.width_valid == false %}
-          <li>The Width of the Image is {{file.width}} and it has to be {{ pieceData.width }}.</li>
-          {% endif %}
-          {% if file.height_valid == false %} 
-          <li>The Height of the Image is {{file.height}} and it has to be {{pieceData.height}}.</li>
-          {% endif %}
+                {% if file.weight_valid == false %}
+                  <li class="{{file.path}}">The Weight of the swf is {{file.weight}} KB and it has to be no greater than {{ pieceData.swfWeight }} KB.</li> 
+                {% endif %}
+                {% if file.flashVersion_valid == false %}
+                  <li class="{{file.path}}">The Flash Version of the swf is {{file.flashVersion}} and it has to be Version {{ pieceData.flashVersion }}.</li>
+                {% endif %}
+                {% if file.width_valid == false %}
+                  <li class="{{file.path}}">The Width of the swf is {{file.width}}px and it has to be {{ pieceData.width }}px.</li>
+                {% endif %}
+                {% if file.height_valid == false %}
+                  <li class="{{file.path}}">The Height of the swf is {{file.height}}px and it has to be {{ pieceData.height }}px.</li>
+                {% endif %}
+                {% if file.fps_valid == false %}
+                  <li class="{{file.path}}">The FPS of the swf is {{file.fps}} and it has to be {{pieceData.fps}}.</li>
+                {% endif %}
+              {% elseif file.type == 'image' %}
+                {% if file.weight_valid == false %}
+                  <li class="{{file.path}}">The Weight of the Image is {{file.weight}} KB and it has to be no greater than {{pieceData.imageWeight}}.</li>
+                {% endif %}
+                {% if file.width_valid == false %}
+                  <li class="{{file.path}}">The Width of the Image is {{file.width}}px and it has to be {{ pieceData.width }}px.</li>
+                {% endif %}
+                {% if file.height_valid == false %} 
+                  <li class="{{file.path}}">The Height of the Image is {{file.height}}px and it has to be {{pieceData.height}}px.</li>
+                {% endif %}
           {% endif %}
           {% endfor %}
         </ul>

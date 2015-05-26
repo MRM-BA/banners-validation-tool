@@ -89,7 +89,7 @@ class FilesManager {
         $currentPath = \lib\pathFunctions::cleanDirectory($currentPath);
         $rootPath = \lib\pathFunctions::cleanDirectory($rootPath);
         while (($currentPath != $rootPath) && !$return) {
-            $return = $this->haveFileWithExtensions($currentPath, array('json'));
+            $return = $this->haveFileWithExtensions($currentPath, $extensions);
             $currentPath = dirname($currentPath);
         }
         return $return;
@@ -253,16 +253,16 @@ class FilesManager {
     }
 
 
-    public function validatePiece($directory, $files, $pieceData) {
+    public function validatePiece($directory, $files, $pieceData, $validate = true) {
         $validated = array();
         foreach ($files as $key => $value) {
             $extension = strtolower(substr($value, strrpos($value, '.')+1));
             if ($extension == 'swf') {
-                $validated[] = $this->validateSwf($directory,$value,$pieceData);
+                $validated[] = $this->validateSwf($directory,$value,$pieceData,$validate);
             } else if (in_array($extension, array('jpg','jpeg','png','gif'))) {
-                $validated[] = $this->validateImage($directory,$value,$pieceData);
+                $validated[] = $this->validateImage($directory,$value,$pieceData,$validate);
             } else {
-                $validated[] = $this->validateFile($directory,$value,$pieceData);
+                $validated[] = $this->validateFile($directory,$value,$pieceData,$validate);
             }
         }
         return $validated;
@@ -304,7 +304,7 @@ class FilesManager {
     }
 
     
-    private function validateSwf($directory, $file, $pieceData) {
+    private function validateSwf($directory, $file, $pieceData, $validate) {
         require_once(__DIR__.'/../vendor/swfheader/swfheader.class.php');
         $swfheader = new \swfheader();
         $filePath = realpath($directory.$file);
@@ -316,13 +316,9 @@ class FilesManager {
         $return['path'] = str_replace(DS, '/', substr($filePath, strpos($filePath, PROJECTS_FOLDER)));
         $return['modified'] = date('F d Y h:i:s A', filemtime($filePath));
         $return['weight'] = round(@filesize($filePath)/1024, 2);
-        $return['weight_valid'] = ($return['weight'] > $pieceData['swfWeight'] ? false : true);
         $return['flashVersion'] = $swfheader->version;
-        $return['flashVersion_valid'] = (!$pieceData['flashVersion'] || $return['flashVersion'] == $pieceData['flashVersion'] ? true : false);
         $return['width'] = $swfheader->width;
-        $return['width_valid'] = ($return['width'] == $pieceData['width'] ? true : false);
         $return['height'] = $swfheader->height;
-        $return['height_valid'] = ($return['height'] == $pieceData['height'] ? true : false);
         $return['frames'] = $swfheader->frames;
         $return['fps'] = null;
         foreach ($swfheader->fps as $value) {
@@ -331,12 +327,18 @@ class FilesManager {
                 break;
             }
         }
-        $return['fps_valid'] = ($return['fps'] == $pieceData['fps'] ? true : false);
+        if ($validate) {
+            $return['weight_valid'] = ($return['weight'] > $pieceData['swfWeight'] ? false : true);
+            $return['flashVersion_valid'] = (!$pieceData['flashVersion'] || $return['flashVersion'] == $pieceData['flashVersion'] ? true : false);
+            $return['width_valid'] = ($return['width'] == $pieceData['width'] ? true : false);
+            $return['height_valid'] = ($return['height'] == $pieceData['height'] ? true : false);
+            $return['fps_valid'] = ($return['fps'] == $pieceData['fps'] ? true : false);
+        }
         return $return;
     }
 
 
-    private function validateImage($directory, $file, $pieceData) {
+    private function validateImage($directory, $file, $pieceData, $validate) {
         $filePath = realpath($directory.$file);
         $return = array();
         $size = getimagesize($filePath);
@@ -346,15 +348,17 @@ class FilesManager {
         $return['path'] = str_replace(DS, '/', substr($filePath, strpos($filePath, PROJECTS_FOLDER)));
         $return['modified'] = date('F d Y h:i:s A', filemtime($filePath));
         $return['weight'] = round(@filesize($filePath)/1024, 2);
-        $return['weight_valid'] = ($pieceData['imageWeight'] && $return['weight'] > $pieceData['imageWeight'] ? false : true);
         $return['width'] = (is_array($size) && isset($size[0]) ? $size[0] : null);
-        $return['width_valid'] = (!$return['width'] || $return['width'] == $pieceData['width'] ? true : false);
         $return['height'] = (is_array($size) && isset($size[1]) ? $size[1] : null);
-        $return['height_valid'] = (!$return['height'] || $return['height'] == $pieceData['height'] ? true : false);
+        if ($validate) {
+            $return['weight_valid'] = ($pieceData['imageWeight'] && $return['weight'] > $pieceData['imageWeight'] ? false : true);
+            $return['width_valid'] = (!$return['width'] || $return['width'] == $pieceData['width'] ? true : false);
+            $return['height_valid'] = (!$return['height'] || $return['height'] == $pieceData['height'] ? true : false);
+        }
         return $return;
     }
 
-    private function validateFile($directory, $file, $pieceData) {
+    private function validateFile($directory, $file, $pieceData, $validate) {
         $filePath = realpath($directory.$file);
         $return = array();
         $size = getimagesize($filePath);

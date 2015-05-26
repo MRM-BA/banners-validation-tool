@@ -18,7 +18,6 @@ if ($absPath = realpath($root.$path)) {
     exit();
 }
 
-
 $router = new \controllers\FilesController($root, $absPath, $isClientReview);
 $filesmanager = new \classes\FilesManager($root);
 

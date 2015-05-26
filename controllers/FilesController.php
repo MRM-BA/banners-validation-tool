@@ -9,6 +9,7 @@ class FilesController {
     private $root;
     private $currentDirectory;
     private $isClientReview;
+    private $hasValidation;
     private $template;
     private $filesmanager;
     private $configmanager;
@@ -30,6 +31,7 @@ class FilesController {
         $this->template->addGlobal('configuration', $this->configmanager);
         $this->template->addGlobal('isCR', $this->isClientReview);
         $this->template->addGlobal('CRUriSegment', ($this->isClientReview ? CLIENT_REVIEW_URI_SEGMENT.'/' : ''));
+        $this->hasValidation = !$this->isClientReview;
     }
 
 
@@ -70,33 +72,42 @@ class FilesController {
 
     public function file($path) {
         $back_link = \lib\pathFunctions::getUriRelativeToBase(\lib\pathFunctions::getParentUri());
+        // Get Excel File
         $excelFile = $this->filesmanager->getExcelForPiece(\lib\pathFunctions::cleanDirectory($this->currentDirectory));
+        // Files info
+        $files = $this->filesmanager->getPieceFiles($this->currentDirectory);
+        rsort($files);
+        $pieceNames = $this->filesmanager->getPieceName($files);
         if ($excelFile) {
             $back_link = \lib\pathFunctions::getFileBackUri($excelFile);
-            $files = $this->filesmanager->getPieceFiles($this->currentDirectory);
-            rsort($files);
-             
             $projectName = $this->filesmanager->getProjectName($excelFile);
-            $pieceNames = $this->filesmanager->getPieceName($files);
             $this->excelmanager = new \classes\ExcelManager($excelFile);
             $pieceData = $this->excelmanager->getPieceData($pieceNames);
             $filesValidated = $this->filesmanager->validatePiece($this->currentDirectory,$files,$pieceData);
             $deliverablesValidated = $this->filesmanager->validateDeliverables($files,$pieceData);
             $hasErrors = $this->filesmanager->hasErrors($filesValidated,$deliverablesValidated);
-            $this->template->display(
-                    'Files/file.html',
-                    array(
-                        'back_link' => $back_link,
-                        'project_name' => $projectName,
-                        'title' => $pieceData['name'],
-                        'files' => $filesValidated,
-                        'pieceData' => $pieceData,
-                        'deliverables' => $deliverablesValidated, 
-                        'hasErrors' => $hasErrors
-                    )
-            );
         } else {
-            header('Location: '.$back_link);
+            //header('Location: '.$back_link);
+            $this->hasValidation = false;
+            $back_link = \lib\pathFunctions::getUriRelativeToBase(\lib\pathFunctions::getParentUri());
+            $projectName = '';
+            $pieceData = null;
+            $filesValidated = $this->filesmanager->validatePiece($this->currentDirectory,$files,null,false);
+            $deliverablesValidated = null;
+            $hasErrors = false;
         }
+        $this->template->display(
+                'Files/file.html',
+                array(
+                    'back_link' => $back_link,
+                    'project_name' => $projectName,
+                    'title' => (isset($pieceData['name']) ? $pieceData['name'] : ''),
+                    'hasValidation' => $this->hasValidation,
+                    'files' => $filesValidated,
+                    'pieceData' => $pieceData,
+                    'deliverables' => $deliverablesValidated,
+                    'hasErrors' => $hasErrors
+                )
+        );
     }
 }
